@@ -16,26 +16,41 @@ import (
 // swagger:model tapi.eth.EthProActiveLmPerformanceData
 type TapiEthEthProActiveLmPerformanceData struct {
 
-	// This attribute contains the bidirectional UAS (unavailable seconds) detected in the monitoring interval.
-	//                     range of type : 0..900 for 15min interval or 0..86400 for 24 hr interval.
-	BidirectionalUas int32 `json:"bidirectional-uas,omitempty"`
+	// A generalized (bidirectional) UAS.
+	//                 MEF 35.1: A 32-bit counter reflecting the number of delta-t intervals evaluated as Unavailable (i.e., for which A<Controller, Responder>(delta-t) = 0).
+	//
+	BidirUnavailableIntervals int32 `json:"bidir-unavailable-intervals,omitempty"`
 
 	// This attribute contains the statistical far end performnace parameters.
-	ProActiveFarEndLmParameters *TapiEthStatisticalLmPerformanceParameters `json:"pro-active-far-end-lm-parameters,omitempty"`
+	StatisticalFarEndLmParameters *TapiEthStatisticalLmPerformanceParameters `json:"statistical-far-end-lm-parameters,omitempty"`
 
 	// This attribute contains the statistical near end performnace parameters.
-	ProActiveNearEndLmParameters *TapiEthStatisticalLmPerformanceParameters `json:"pro-active-near-end-lm-parameters,omitempty"`
+	StatisticalNearEndLmParameters *TapiEthStatisticalLmPerformanceParameters `json:"statistical-near-end-lm-parameters,omitempty"`
+
+	// This attribute contains the results of an on-demand synthetic loss measurement job in the egress direction.
+	TotalCountersFarEndLmParameters *TapiEthTotalCountersLmPerformanceParameters `json:"total-counters-far-end-lm-parameters,omitempty"`
+
+	// This attribute contains the results of an on-demand synthetic loss measurement job in the ingress direction.
+	TotalCountersNearEndLmParameters *TapiEthTotalCountersLmPerformanceParameters `json:"total-counters-near-end-lm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth pro active lm performance data
 func (m *TapiEthEthProActiveLmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateProActiveFarEndLmParameters(formats); err != nil {
+	if err := m.validateStatisticalFarEndLmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateProActiveNearEndLmParameters(formats); err != nil {
+	if err := m.validateStatisticalNearEndLmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTotalCountersFarEndLmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTotalCountersNearEndLmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -45,16 +60,16 @@ func (m *TapiEthEthProActiveLmPerformanceData) Validate(formats strfmt.Registry)
 	return nil
 }
 
-func (m *TapiEthEthProActiveLmPerformanceData) validateProActiveFarEndLmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActiveLmPerformanceData) validateStatisticalFarEndLmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveFarEndLmParameters) { // not required
+	if swag.IsZero(m.StatisticalFarEndLmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveFarEndLmParameters != nil {
-		if err := m.ProActiveFarEndLmParameters.Validate(formats); err != nil {
+	if m.StatisticalFarEndLmParameters != nil {
+		if err := m.StatisticalFarEndLmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-far-end-lm-parameters")
+				return ve.ValidateName("statistical-far-end-lm-parameters")
 			}
 			return err
 		}
@@ -63,16 +78,52 @@ func (m *TapiEthEthProActiveLmPerformanceData) validateProActiveFarEndLmParamete
 	return nil
 }
 
-func (m *TapiEthEthProActiveLmPerformanceData) validateProActiveNearEndLmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActiveLmPerformanceData) validateStatisticalNearEndLmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveNearEndLmParameters) { // not required
+	if swag.IsZero(m.StatisticalNearEndLmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveNearEndLmParameters != nil {
-		if err := m.ProActiveNearEndLmParameters.Validate(formats); err != nil {
+	if m.StatisticalNearEndLmParameters != nil {
+		if err := m.StatisticalNearEndLmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-near-end-lm-parameters")
+				return ve.ValidateName("statistical-near-end-lm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthProActiveLmPerformanceData) validateTotalCountersFarEndLmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TotalCountersFarEndLmParameters) { // not required
+		return nil
+	}
+
+	if m.TotalCountersFarEndLmParameters != nil {
+		if err := m.TotalCountersFarEndLmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("total-counters-far-end-lm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthProActiveLmPerformanceData) validateTotalCountersNearEndLmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TotalCountersNearEndLmParameters) { // not required
+		return nil
+	}
+
+	if m.TotalCountersNearEndLmParameters != nil {
+		if err := m.TotalCountersNearEndLmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("total-counters-near-end-lm-parameters")
 			}
 			return err
 		}

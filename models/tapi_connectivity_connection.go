@@ -22,6 +22,9 @@ type TapiConnectivityConnection struct {
 	TapiCommonOperationalStatePac
 
 	// none
+	BoundingNode *TapiTopologyNodeRef `json:"bounding-node,omitempty"`
+
+	// none
 	ConnectionEndPoint []*TapiConnectivityConnectionEndPointRef `json:"connection-end-point"`
 
 	// none
@@ -31,9 +34,9 @@ type TapiConnectivityConnection struct {
 	LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 	// An Connection object supports a recursive aggregation relationship such that the internal construction of an Connection can be exposed as multiple lower level Connection objects (partitioning).
-	//                     Aggregation is used as for the Node/Topology  to allow changes in hierarchy.
-	//                     Connection aggregation reflects Node/Topology aggregation.
-	//                     The FC represents a Cross-Connection in an NE. The Cross-Connection in an NE is not necessarily the lowest level of FC partitioning.
+	//                 Aggregation is used as for the Node/Topology  to allow changes in hierarchy.
+	//                 Connection aggregation reflects Node/Topology aggregation.
+	//                 The FC represents a Cross-Connection in an NE. The Cross-Connection in an NE is not necessarily the lowest level of FC partitioning.
 	LowerConnection []*TapiConnectivityConnectionRef `json:"lower-connection"`
 
 	// none
@@ -64,6 +67,8 @@ func (m *TapiConnectivityConnection) UnmarshalJSON(raw []byte) error {
 
 	// AO2
 	var dataAO2 struct {
+		BoundingNode *TapiTopologyNodeRef `json:"bounding-node,omitempty"`
+
 		ConnectionEndPoint []*TapiConnectivityConnectionEndPointRef `json:"connection-end-point"`
 
 		Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
@@ -81,6 +86,8 @@ func (m *TapiConnectivityConnection) UnmarshalJSON(raw []byte) error {
 	if err := swag.ReadJSON(raw, &dataAO2); err != nil {
 		return err
 	}
+
+	m.BoundingNode = dataAO2.BoundingNode
 
 	m.ConnectionEndPoint = dataAO2.ConnectionEndPoint
 
@@ -116,6 +123,8 @@ func (m TapiConnectivityConnection) MarshalJSON() ([]byte, error) {
 	_parts = append(_parts, aO1)
 
 	var dataAO2 struct {
+		BoundingNode *TapiTopologyNodeRef `json:"bounding-node,omitempty"`
+
 		ConnectionEndPoint []*TapiConnectivityConnectionEndPointRef `json:"connection-end-point"`
 
 		Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
@@ -130,6 +139,8 @@ func (m TapiConnectivityConnection) MarshalJSON() ([]byte, error) {
 
 		SwitchControl []*TapiConnectivitySwitchControl `json:"switch-control"`
 	}
+
+	dataAO2.BoundingNode = m.BoundingNode
 
 	dataAO2.ConnectionEndPoint = m.ConnectionEndPoint
 
@@ -167,6 +178,10 @@ func (m *TapiConnectivityConnection) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateBoundingNode(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateConnectionEndPoint(formats); err != nil {
 		res = append(res, err)
 	}
@@ -198,6 +213,24 @@ func (m *TapiConnectivityConnection) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *TapiConnectivityConnection) validateBoundingNode(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.BoundingNode) { // not required
+		return nil
+	}
+
+	if m.BoundingNode != nil {
+		if err := m.BoundingNode.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("bounding-node")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

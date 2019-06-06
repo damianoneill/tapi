@@ -19,7 +19,7 @@ type TapiTopologyLatencyCharacteristic struct {
 	FixedLatencyCharacteristic string `json:"fixed-latency-characteristic,omitempty"`
 
 	// High frequency deviation from true periodicity of a signal and therefore a small high rate of change of transfer latency.
-	//                     Applies to TDM systems (and not packet).
+	//                 Applies to TDM systems (and not packet).
 	JitterCharacteristic string `json:"jitter-characteristic,omitempty"`
 
 	// The specific queuing latency for the traffic property.
@@ -29,7 +29,7 @@ type TapiTopologyLatencyCharacteristic struct {
 	TrafficPropertyName string `json:"traffic-property-name,omitempty"`
 
 	// Low frequency deviation from true periodicity of a signal and therefore a small low rate of change of transfer latency.
-	//                     Applies to TDM systems (and not packet).
+	//                 Applies to TDM systems (and not packet).
 	WanderCharacteristic string `json:"wander-characteristic,omitempty"`
 }
 

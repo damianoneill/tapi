@@ -23,7 +23,10 @@ type TapiEthEthMepSpec struct {
 	EthMepSink *TapiEthEthMepSink `json:"eth-mep-sink,omitempty"`
 
 	// none
-	EthMepSourcePac *TapiEthEthMepSource `json:"eth-mep-source-pac,omitempty"`
+	EthMepSource *TapiEthEthMepSource `json:"eth-mep-source,omitempty"`
+
+	// This attribute contains the MAC Address of the MEP.
+	MepMac string `json:"mep-mac,omitempty"`
 }
 
 // Validate validates this tapi eth eth mep spec
@@ -38,7 +41,7 @@ func (m *TapiEthEthMepSpec) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateEthMepSourcePac(formats); err != nil {
+	if err := m.validateEthMepSource(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -84,16 +87,16 @@ func (m *TapiEthEthMepSpec) validateEthMepSink(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TapiEthEthMepSpec) validateEthMepSourcePac(formats strfmt.Registry) error {
+func (m *TapiEthEthMepSpec) validateEthMepSource(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.EthMepSourcePac) { // not required
+	if swag.IsZero(m.EthMepSource) { // not required
 		return nil
 	}
 
-	if m.EthMepSourcePac != nil {
-		if err := m.EthMepSourcePac.Validate(formats); err != nil {
+	if m.EthMepSource != nil {
+		if err := m.EthMepSource.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("eth-mep-source-pac")
+				return ve.ValidateName("eth-mep-source")
 			}
 			return err
 		}

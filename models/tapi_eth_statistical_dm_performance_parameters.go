@@ -19,19 +19,40 @@ type TapiEthStatisticalDmPerformanceParameters struct {
 	AverageFrameDelay int32 `json:"average-frame-delay,omitempty"`
 
 	// This attribute contains the average frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).
+	//                 Y.1563:
+	//                 The 2-point frame delay variation (vk) for an Ethernet frame k between SRC and DST is the difference between the absolute Ethernet frame transfer delay (xk) of frame k and a defined reference Ethernet frame transfer delay, d1,2, between those same MPs:  vk = xk – d1,2.
 	AverageFrameDelayVariation int32 `json:"average-frame-delay-variation,omitempty"`
+
+	// This attribute contains the average frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).
+	//                 G.8013/Y.1731:
+	//                 Frame delay variation is a measure of the variations in the frame delay between a pair of service frames
+	AverageInterFrameDelayVariation int32 `json:"average-inter-frame-delay-variation,omitempty"`
 
 	// This attribute contains the maximum frame delay observed over the monitored period. It is measured in units of ns (nano second, 1x10e-9 seconds).
 	MaximumFrameDelay int32 `json:"maximum-frame-delay,omitempty"`
 
 	// This attribute contains the maximum frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).
+	//                 Y.1563:
+	//                 The 2-point frame delay variation (vk) for an Ethernet frame k between SRC and DST is the difference between the absolute Ethernet frame transfer delay (xk) of frame k and a defined reference Ethernet frame transfer delay, d1,2, between those same MPs:  vk = xk – d1,2.
 	MaximumFrameDelayVariation int32 `json:"maximum-frame-delay-variation,omitempty"`
+
+	// This attribute contains the maximum frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).
+	//                 G.8013/Y.1731:
+	//                 Frame delay variation is a measure of the variations in the frame delay between a pair of service frames
+	MaximumInterFrameDelayVariation int32 `json:"maximum-inter-frame-delay-variation,omitempty"`
 
 	// This attribute contains the minimum frame delay observed over the monitored period. It is measured in units of ns (nano second, 1x10e-9 seconds).
 	MinimumFrameDelay int32 `json:"minimum-frame-delay,omitempty"`
 
 	// This attribute contains the minimum frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).
+	//                 Y.1563:
+	//                 The 2-point frame delay variation (vk) for an Ethernet frame k between SRC and DST is the difference between the absolute Ethernet frame transfer delay (xk) of frame k and a defined reference Ethernet frame transfer delay, d1,2, between those same MPs:  vk = xk – d1,2.
 	MinimumFrameDelayVariation int32 `json:"minimum-frame-delay-variation,omitempty"`
+
+	// This attribute contains the minimum frame delay variation measured in units of ns (nano second, 1x10e-9 seconds).
+	//                 G.8013/Y.1731:
+	//                 Frame delay variation is a measure of the variations in the frame delay between a pair of service frames
+	MinimumInterFrameDelayVariation int32 `json:"minimum-inter-frame-delay-variation,omitempty"`
 }
 
 // Validate validates this tapi eth statistical dm performance parameters

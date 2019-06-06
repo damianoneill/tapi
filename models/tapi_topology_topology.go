@@ -20,6 +20,9 @@ type TapiTopologyTopology struct {
 	TapiCommonGlobalClass
 
 	// none
+	BoundaryNodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"boundary-node-edge-point"`
+
+	// none
 	LayerProtocolName []TapiCommonLayerProtocolName `json:"layer-protocol-name"`
 
 	// none
@@ -40,6 +43,8 @@ func (m *TapiTopologyTopology) UnmarshalJSON(raw []byte) error {
 
 	// AO1
 	var dataAO1 struct {
+		BoundaryNodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"boundary-node-edge-point"`
+
 		LayerProtocolName []TapiCommonLayerProtocolName `json:"layer-protocol-name"`
 
 		Link []*TapiTopologyLink `json:"link"`
@@ -49,6 +54,8 @@ func (m *TapiTopologyTopology) UnmarshalJSON(raw []byte) error {
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
 	}
+
+	m.BoundaryNodeEdgePoint = dataAO1.BoundaryNodeEdgePoint
 
 	m.LayerProtocolName = dataAO1.LayerProtocolName
 
@@ -70,12 +77,16 @@ func (m TapiTopologyTopology) MarshalJSON() ([]byte, error) {
 	_parts = append(_parts, aO0)
 
 	var dataAO1 struct {
+		BoundaryNodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"boundary-node-edge-point"`
+
 		LayerProtocolName []TapiCommonLayerProtocolName `json:"layer-protocol-name"`
 
 		Link []*TapiTopologyLink `json:"link"`
 
 		Node []*TapiTopologyNode `json:"node"`
 	}
+
+	dataAO1.BoundaryNodeEdgePoint = m.BoundaryNodeEdgePoint
 
 	dataAO1.LayerProtocolName = m.LayerProtocolName
 
@@ -101,6 +112,10 @@ func (m *TapiTopologyTopology) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateBoundaryNodeEdgePoint(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateLayerProtocolName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -116,6 +131,31 @@ func (m *TapiTopologyTopology) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *TapiTopologyTopology) validateBoundaryNodeEdgePoint(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.BoundaryNodeEdgePoint) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.BoundaryNodeEdgePoint); i++ {
+		if swag.IsZero(m.BoundaryNodeEdgePoint[i]) { // not required
+			continue
+		}
+
+		if m.BoundaryNodeEdgePoint[i] != nil {
+			if err := m.BoundaryNodeEdgePoint[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("boundary-node-edge-point" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

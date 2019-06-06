@@ -17,14 +17,21 @@ import (
 type TapiEthEthProActive1LmPerformanceData struct {
 
 	// This attribute contains the statistical near end performnace parameters.
-	ProActiveNearEnd1LmParameters *TapiEthStatisticalLmPerformanceParameters `json:"pro-active-near-end-1-lm-parameters,omitempty"`
+	StatisticalNearEnd1LmParameters *TapiEthStatisticalLmPerformanceParameters `json:"statistical-near-end-1-lm-parameters,omitempty"`
+
+	// This attribute contains the results of an on-demand synthetic loss measurement job in the ingress direction.
+	TotalCountersNearEnd1LmParameters *TapiEthTotalCountersLmPerformanceParameters `json:"total-counters-near-end-1-lm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth pro active1 lm performance data
 func (m *TapiEthEthProActive1LmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateProActiveNearEnd1LmParameters(formats); err != nil {
+	if err := m.validateStatisticalNearEnd1LmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTotalCountersNearEnd1LmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -34,16 +41,34 @@ func (m *TapiEthEthProActive1LmPerformanceData) Validate(formats strfmt.Registry
 	return nil
 }
 
-func (m *TapiEthEthProActive1LmPerformanceData) validateProActiveNearEnd1LmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActive1LmPerformanceData) validateStatisticalNearEnd1LmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveNearEnd1LmParameters) { // not required
+	if swag.IsZero(m.StatisticalNearEnd1LmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveNearEnd1LmParameters != nil {
-		if err := m.ProActiveNearEnd1LmParameters.Validate(formats); err != nil {
+	if m.StatisticalNearEnd1LmParameters != nil {
+		if err := m.StatisticalNearEnd1LmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-near-end-1-lm-parameters")
+				return ve.ValidateName("statistical-near-end-1-lm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthProActive1LmPerformanceData) validateTotalCountersNearEnd1LmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TotalCountersNearEnd1LmParameters) { // not required
+		return nil
+	}
+
+	if m.TotalCountersNearEnd1LmParameters != nil {
+		if err := m.TotalCountersNearEnd1LmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("total-counters-near-end-1-lm-parameters")
 			}
 			return err
 		}

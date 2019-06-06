@@ -15,6 +15,9 @@ import (
 // swagger:model tapi.odu.OduTcmMipPac
 type TapiOduOduTcmMipPac struct {
 
+	// This attribute specifies the directionality of the ODU MIP with respect to the associated ODU CEP. The value of TRUE means that the (half MIP/sink part of the) ODU MIP receives the same signal direction as the sink part of the ODU CEP. The Source part behaves similarly. This attribute is meaningful only on objects instantiated under ODU CEP, and at least one among ODU CEP and the subordinate object is bidirectional.
+	Codirectional *bool `json:"codirectional,omitempty"`
+
 	// This attribute indicates the tandem connection monitoring field of the ODU OH.
 	TcmField int32 `json:"tcm-field,omitempty"`
 }

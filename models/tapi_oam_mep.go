@@ -20,16 +20,7 @@ type TapiOamMep struct {
 	TapiCommonOperationalStatePac
 
 	// none
-	Direction TapiCommonTerminationDirection `json:"direction,omitempty"`
-
-	// none
 	LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
-
-	// none
-	MepIdentifier string `json:"mep-identifier,omitempty"`
-
-	// none
-	PeerMepIdentifier []string `json:"peer-mep-identifier"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -50,25 +41,13 @@ func (m *TapiOamMep) UnmarshalJSON(raw []byte) error {
 
 	// AO2
 	var dataAO2 struct {
-		Direction TapiCommonTerminationDirection `json:"direction,omitempty"`
-
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
-
-		MepIdentifier string `json:"mep-identifier,omitempty"`
-
-		PeerMepIdentifier []string `json:"peer-mep-identifier"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO2); err != nil {
 		return err
 	}
 
-	m.Direction = dataAO2.Direction
-
 	m.LayerProtocolName = dataAO2.LayerProtocolName
-
-	m.MepIdentifier = dataAO2.MepIdentifier
-
-	m.PeerMepIdentifier = dataAO2.PeerMepIdentifier
 
 	return nil
 }
@@ -90,22 +69,10 @@ func (m TapiOamMep) MarshalJSON() ([]byte, error) {
 	_parts = append(_parts, aO1)
 
 	var dataAO2 struct {
-		Direction TapiCommonTerminationDirection `json:"direction,omitempty"`
-
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
-
-		MepIdentifier string `json:"mep-identifier,omitempty"`
-
-		PeerMepIdentifier []string `json:"peer-mep-identifier"`
 	}
 
-	dataAO2.Direction = m.Direction
-
 	dataAO2.LayerProtocolName = m.LayerProtocolName
-
-	dataAO2.MepIdentifier = m.MepIdentifier
-
-	dataAO2.PeerMepIdentifier = m.PeerMepIdentifier
 
 	jsonDataAO2, errAO2 := swag.WriteJSON(dataAO2)
 	if errAO2 != nil {
@@ -129,10 +96,6 @@ func (m *TapiOamMep) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateDirection(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateLayerProtocolName(formats); err != nil {
 		res = append(res, err)
 	}
@@ -140,22 +103,6 @@ func (m *TapiOamMep) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiOamMep) validateDirection(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Direction) { // not required
-		return nil
-	}
-
-	if err := m.Direction.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("direction")
-		}
-		return err
-	}
-
 	return nil
 }
 

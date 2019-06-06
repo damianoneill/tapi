@@ -15,16 +15,17 @@ import (
 // TapiEthEthProActiveMeasurementJobControlSource tapi eth eth pro active measurement job control source
 // swagger:model tapi.eth.EthProActiveMeasurementJobControlSource
 type TapiEthEthProActiveMeasurementJobControlSource struct {
+	TapiEthEthMeasurementJobControlCommon
 
 	// none
-	ControllerMepID string `json:"controller-mep-id,omitempty"`
+	ControllerMepID int32 `json:"controller-mep-id,omitempty"`
 
 	// This parameter provides the size of the optional data TLV.
-	//                     Non-negative integer represents the number of bytes for the length of the padding TLV.
-	//                     Notes:
-	//                     When configuring this parameter one should be aware of the maximum allowed total frame size limitation.
-	//                     The attribute is not used in case of 2-way loss measurement.
-	//                     range of type : Depends on the allowed MTU size.
+	//                 Non-negative integer represents the number of bytes for the length of the padding TLV.
+	//                 Notes:
+	//                 When configuring this parameter one should be aware of the maximum allowed total frame size limitation.
+	//                 The attribute is not used in case of 2-way loss measurement.
+	//                 range of type : Depends on the allowed MTU size.
 	DataTlvLength int32 `json:"data-tlv-length,omitempty"`
 
 	// This attribute provides the Unicast MAC address of the intented destination.
@@ -32,47 +33,91 @@ type TapiEthEthProActiveMeasurementJobControlSource struct {
 
 	// This attribute identifies the state of the measurement job. If set to TRUE, the MEP performs proactive Performance Measurement.
 	IsEnabled *bool `json:"is-enabled,omitempty"`
+}
 
-	// This attribute indicates the period (frequency) of the measurement frame transmission.
-	//                     range of type : 100ms, 1s, 10s
-	Period TapiEthOamPeriod `json:"period,omitempty"`
+// UnmarshalJSON unmarshals this object from a JSON structure
+func (m *TapiEthEthProActiveMeasurementJobControlSource) UnmarshalJSON(raw []byte) error {
+	// AO0
+	var aO0 TapiEthEthMeasurementJobControlCommon
+	if err := swag.ReadJSON(raw, &aO0); err != nil {
+		return err
+	}
+	m.TapiEthEthMeasurementJobControlCommon = aO0
 
-	// This attribute contains the priority value on which the MEP performs the measurement. When the measurement is enabled, the MEP should use this value to encode the priority of generated measurement frames. The EMF usese this value to assign the P parameter of the measurement operation.
-	Priority *int32 `json:"priority,omitempty"`
+	// AO1
+	var dataAO1 struct {
+		ControllerMepID int32 `json:"controller-mep-id,omitempty"`
 
-	// This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
-	//                     Note: The attribute is not used in case of 2-way loss measurement.
-	//                     range of type : 0..(2^32) - 1
-	TestIdentifier int32 `json:"test-identifier,omitempty"`
+		DataTlvLength int32 `json:"data-tlv-length,omitempty"`
+
+		DestinationAddress string `json:"destination-address,omitempty"`
+
+		IsEnabled *bool `json:"is-enabled,omitempty"`
+	}
+	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
+		return err
+	}
+
+	m.ControllerMepID = dataAO1.ControllerMepID
+
+	m.DataTlvLength = dataAO1.DataTlvLength
+
+	m.DestinationAddress = dataAO1.DestinationAddress
+
+	m.IsEnabled = dataAO1.IsEnabled
+
+	return nil
+}
+
+// MarshalJSON marshals this object to a JSON structure
+func (m TapiEthEthProActiveMeasurementJobControlSource) MarshalJSON() ([]byte, error) {
+	_parts := make([][]byte, 0, 2)
+
+	aO0, err := swag.WriteJSON(m.TapiEthEthMeasurementJobControlCommon)
+	if err != nil {
+		return nil, err
+	}
+	_parts = append(_parts, aO0)
+
+	var dataAO1 struct {
+		ControllerMepID int32 `json:"controller-mep-id,omitempty"`
+
+		DataTlvLength int32 `json:"data-tlv-length,omitempty"`
+
+		DestinationAddress string `json:"destination-address,omitempty"`
+
+		IsEnabled *bool `json:"is-enabled,omitempty"`
+	}
+
+	dataAO1.ControllerMepID = m.ControllerMepID
+
+	dataAO1.DataTlvLength = m.DataTlvLength
+
+	dataAO1.DestinationAddress = m.DestinationAddress
+
+	dataAO1.IsEnabled = m.IsEnabled
+
+	jsonDataAO1, errAO1 := swag.WriteJSON(dataAO1)
+	if errAO1 != nil {
+		return nil, errAO1
+	}
+	_parts = append(_parts, jsonDataAO1)
+
+	return swag.ConcatJSON(_parts...), nil
 }
 
 // Validate validates this tapi eth eth pro active measurement job control source
 func (m *TapiEthEthProActiveMeasurementJobControlSource) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validatePeriod(formats); err != nil {
+	// validation for a type composition with TapiEthEthMeasurementJobControlCommon
+	if err := m.TapiEthEthMeasurementJobControlCommon.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiEthEthProActiveMeasurementJobControlSource) validatePeriod(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Period) { // not required
-		return nil
-	}
-
-	if err := m.Period.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("period")
-		}
-		return err
-	}
-
 	return nil
 }
 

@@ -25,9 +25,6 @@ type TapiConnectivitySwitch struct {
 	// none
 	SelectedRoute []*TapiConnectivityRouteRef `json:"selected-route"`
 
-	// Degree of administrative control applied to the switch selection.
-	SelectionControl TapiConnectivitySelectionControl `json:"selection-control,omitempty"`
-
 	// The reason for the current switch selection.
 	SelectionReason TapiConnectivitySelectionReason `json:"selection-reason,omitempty"`
 
@@ -50,8 +47,6 @@ func (m *TapiConnectivitySwitch) UnmarshalJSON(raw []byte) error {
 
 		SelectedRoute []*TapiConnectivityRouteRef `json:"selected-route"`
 
-		SelectionControl TapiConnectivitySelectionControl `json:"selection-control,omitempty"`
-
 		SelectionReason TapiConnectivitySelectionReason `json:"selection-reason,omitempty"`
 
 		SwitchDirection TapiCommonPortDirection `json:"switch-direction,omitempty"`
@@ -63,8 +58,6 @@ func (m *TapiConnectivitySwitch) UnmarshalJSON(raw []byte) error {
 	m.SelectedConnectionEndPoint = dataAO1.SelectedConnectionEndPoint
 
 	m.SelectedRoute = dataAO1.SelectedRoute
-
-	m.SelectionControl = dataAO1.SelectionControl
 
 	m.SelectionReason = dataAO1.SelectionReason
 
@@ -88,8 +81,6 @@ func (m TapiConnectivitySwitch) MarshalJSON() ([]byte, error) {
 
 		SelectedRoute []*TapiConnectivityRouteRef `json:"selected-route"`
 
-		SelectionControl TapiConnectivitySelectionControl `json:"selection-control,omitempty"`
-
 		SelectionReason TapiConnectivitySelectionReason `json:"selection-reason,omitempty"`
 
 		SwitchDirection TapiCommonPortDirection `json:"switch-direction,omitempty"`
@@ -98,8 +89,6 @@ func (m TapiConnectivitySwitch) MarshalJSON() ([]byte, error) {
 	dataAO1.SelectedConnectionEndPoint = m.SelectedConnectionEndPoint
 
 	dataAO1.SelectedRoute = m.SelectedRoute
-
-	dataAO1.SelectionControl = m.SelectionControl
 
 	dataAO1.SelectionReason = m.SelectionReason
 
@@ -128,10 +117,6 @@ func (m *TapiConnectivitySwitch) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateSelectedRoute(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSelectionControl(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -194,22 +179,6 @@ func (m *TapiConnectivitySwitch) validateSelectedRoute(formats strfmt.Registry) 
 			}
 		}
 
-	}
-
-	return nil
-}
-
-func (m *TapiConnectivitySwitch) validateSelectionControl(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.SelectionControl) { // not required
-		return nil
-	}
-
-	if err := m.SelectionControl.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("selection-control")
-		}
-		return err
 	}
 
 	return nil

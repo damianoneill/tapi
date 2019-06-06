@@ -20,26 +20,23 @@ type TapiTopologyProtectionType string
 
 const (
 
-	// TapiTopologyProtectionTypeNOPROTECTON captures enum value "NO_PROTECTON"
-	TapiTopologyProtectionTypeNOPROTECTON TapiTopologyProtectionType = "NO_PROTECTON"
+	// TapiTopologyProtectionTypeNOPROTECTION captures enum value "NO_PROTECTION"
+	TapiTopologyProtectionTypeNOPROTECTION TapiTopologyProtectionType = "NO_PROTECTION"
 
 	// TapiTopologyProtectionTypeONEPLUSONEPROTECTION captures enum value "ONE_PLUS_ONE_PROTECTION"
 	TapiTopologyProtectionTypeONEPLUSONEPROTECTION TapiTopologyProtectionType = "ONE_PLUS_ONE_PROTECTION"
 
-	// TapiTopologyProtectionTypeONEPLUSONEPROTECTIONWITHDYNAMICRESTORATION captures enum value "ONE_PLUS_ONE_PROTECTION_WITH_DYNAMIC_RESTORATION"
-	TapiTopologyProtectionTypeONEPLUSONEPROTECTIONWITHDYNAMICRESTORATION TapiTopologyProtectionType = "ONE_PLUS_ONE_PROTECTION_WITH_DYNAMIC_RESTORATION"
-
-	// TapiTopologyProtectionTypePERMANENTONEPLUSONEPROTECTION captures enum value "PERMANENT_ONE_PLUS_ONE_PROTECTION"
-	TapiTopologyProtectionTypePERMANENTONEPLUSONEPROTECTION TapiTopologyProtectionType = "PERMANENT_ONE_PLUS_ONE_PROTECTION"
-
 	// TapiTopologyProtectionTypeONEFORONEPROTECTION captures enum value "ONE_FOR_ONE_PROTECTION"
 	TapiTopologyProtectionTypeONEFORONEPROTECTION TapiTopologyProtectionType = "ONE_FOR_ONE_PROTECTION"
 
-	// TapiTopologyProtectionTypeDYNAMICRESTORATION captures enum value "DYNAMIC_RESTORATION"
-	TapiTopologyProtectionTypeDYNAMICRESTORATION TapiTopologyProtectionType = "DYNAMIC_RESTORATION"
+	// TapiTopologyProtectionTypeONEFORNPROTECTION captures enum value "ONE_FOR_N_PROTECTION"
+	TapiTopologyProtectionTypeONEFORNPROTECTION TapiTopologyProtectionType = "ONE_FOR_N_PROTECTION"
 
-	// TapiTopologyProtectionTypePRECOMPUTEDRESTORATION captures enum value "PRE_COMPUTED_RESTORATION"
-	TapiTopologyProtectionTypePRECOMPUTEDRESTORATION TapiTopologyProtectionType = "PRE_COMPUTED_RESTORATION"
+	// TapiTopologyProtectionTypeMFORNPROTECTION captures enum value "M_FOR_N_PROTECTION"
+	TapiTopologyProtectionTypeMFORNPROTECTION TapiTopologyProtectionType = "M_FOR_N_PROTECTION"
+
+	// TapiTopologyProtectionTypeONEFORONEBYN captures enum value "ONE_FOR_ONE_BY_N"
+	TapiTopologyProtectionTypeONEFORONEBYN TapiTopologyProtectionType = "ONE_FOR_ONE_BY_N"
 )
 
 // for schema
@@ -47,7 +44,7 @@ var tapiTopologyProtectionTypeEnum []interface{}
 
 func init() {
 	var res []TapiTopologyProtectionType
-	if err := json.Unmarshal([]byte(`["NO_PROTECTON","ONE_PLUS_ONE_PROTECTION","ONE_PLUS_ONE_PROTECTION_WITH_DYNAMIC_RESTORATION","PERMANENT_ONE_PLUS_ONE_PROTECTION","ONE_FOR_ONE_PROTECTION","DYNAMIC_RESTORATION","PRE_COMPUTED_RESTORATION"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["NO_PROTECTION","ONE_PLUS_ONE_PROTECTION","ONE_FOR_ONE_PROTECTION","ONE_FOR_N_PROTECTION","M_FOR_N_PROTECTION","ONE_FOR_ONE_BY_N"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

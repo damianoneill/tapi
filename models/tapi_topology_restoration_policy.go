@@ -28,6 +28,12 @@ const (
 
 	// TapiTopologyRestorationPolicyNA captures enum value "NA"
 	TapiTopologyRestorationPolicyNA TapiTopologyRestorationPolicy = "NA"
+
+	// TapiTopologyRestorationPolicyDYNAMICRESTORATION captures enum value "DYNAMIC_RESTORATION"
+	TapiTopologyRestorationPolicyDYNAMICRESTORATION TapiTopologyRestorationPolicy = "DYNAMIC_RESTORATION"
+
+	// TapiTopologyRestorationPolicyPRECOMPUTEDRESTORATION captures enum value "PRE_COMPUTED_RESTORATION"
+	TapiTopologyRestorationPolicyPRECOMPUTEDRESTORATION TapiTopologyRestorationPolicy = "PRE_COMPUTED_RESTORATION"
 )
 
 // for schema
@@ -35,7 +41,7 @@ var tapiTopologyRestorationPolicyEnum []interface{}
 
 func init() {
 	var res []TapiTopologyRestorationPolicy
-	if err := json.Unmarshal([]byte(`["PER_DOMAIN_RESTORATION","END_TO_END_RESTORATION","NA"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["PER_DOMAIN_RESTORATION","END_TO_END_RESTORATION","NA","DYNAMIC_RESTORATION","PRE_COMPUTED_RESTORATION"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

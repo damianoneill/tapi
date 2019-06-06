@@ -19,9 +19,6 @@ import (
 type TapiConnectivityConnectivityConstraint struct {
 
 	// none
-	ConnectivityDirection TapiCommonForwardingDirection `json:"connectivity-direction,omitempty"`
-
-	// none
 	CorouteInclusion *TapiConnectivityConnectivityServiceRef `json:"coroute-inclusion,omitempty"`
 
 	// none
@@ -33,10 +30,8 @@ type TapiConnectivityConnectivityConstraint struct {
 	// none
 	Schedule *TapiCommonTimeRange `json:"schedule,omitempty"`
 
-	// none
-	ServiceLayer TapiCommonLayerProtocolName `json:"service-layer,omitempty"`
-
 	// An abstract value the meaning of which is mutually agreed – typically represents metrics such as - Class of service, priority, resiliency, availability
+	//                 Class of Service Name.
 	ServiceLevel string `json:"service-level,omitempty"`
 
 	// none
@@ -46,10 +41,6 @@ type TapiConnectivityConnectivityConstraint struct {
 // Validate validates this tapi connectivity connectivity constraint
 func (m *TapiConnectivityConnectivityConstraint) Validate(formats strfmt.Registry) error {
 	var res []error
-
-	if err := m.validateConnectivityDirection(formats); err != nil {
-		res = append(res, err)
-	}
 
 	if err := m.validateCorouteInclusion(formats); err != nil {
 		res = append(res, err)
@@ -67,10 +58,6 @@ func (m *TapiConnectivityConnectivityConstraint) Validate(formats strfmt.Registr
 		res = append(res, err)
 	}
 
-	if err := m.validateServiceLayer(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateServiceType(formats); err != nil {
 		res = append(res, err)
 	}
@@ -78,22 +65,6 @@ func (m *TapiConnectivityConnectivityConstraint) Validate(formats strfmt.Registr
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiConnectivityConnectivityConstraint) validateConnectivityDirection(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.ConnectivityDirection) { // not required
-		return nil
-	}
-
-	if err := m.ConnectivityDirection.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("connectivity-direction")
-		}
-		return err
-	}
-
 	return nil
 }
 
@@ -171,22 +142,6 @@ func (m *TapiConnectivityConnectivityConstraint) validateSchedule(formats strfmt
 			}
 			return err
 		}
-	}
-
-	return nil
-}
-
-func (m *TapiConnectivityConnectivityConstraint) validateServiceLayer(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.ServiceLayer) { // not required
-		return nil
-	}
-
-	if err := m.ServiceLayer.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("service-layer")
-		}
-		return err
 	}
 
 	return nil

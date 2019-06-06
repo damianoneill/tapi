@@ -17,7 +17,7 @@ import (
 type TapiNotificationContextAugmentation1 struct {
 
 	// Augments the base TAPI Context with NotificationService information
-	NotificationContext *TapiNotificationNotificationContext `json:"notification-context,omitempty"`
+	NotificationContext *TapiNotificationContextNotificationContext `json:"notification-context,omitempty"`
 }
 
 // Validate validates this tapi notification context augmentation1

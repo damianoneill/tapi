@@ -19,15 +19,17 @@ import (
 type TapiCommonContext struct {
 	TapiCommonGlobalClass
 
-	TapiConnectivityContextAugmentation5
+	TapiConnectivityContextAugmentation6
+
+	TapiEquipmentContextAugmentation5
 
 	TapiNotificationContextAugmentation1
 
-	TapiOamContextAugmentation2
+	TapiOamContextAugmentation4
 
-	TapiPathComputationContextAugmentation4
+	TapiPathComputationContextAugmentation2
 
-	TapiTopologyContextAugmentation6
+	TapiTopologyContextAugmentation7
 
 	TapiVirtualNetworkContextAugmentation3
 
@@ -45,63 +47,70 @@ func (m *TapiCommonContext) UnmarshalJSON(raw []byte) error {
 	m.TapiCommonGlobalClass = aO0
 
 	// AO1
-	var aO1 TapiConnectivityContextAugmentation5
+	var aO1 TapiConnectivityContextAugmentation6
 	if err := swag.ReadJSON(raw, &aO1); err != nil {
 		return err
 	}
-	m.TapiConnectivityContextAugmentation5 = aO1
+	m.TapiConnectivityContextAugmentation6 = aO1
 
 	// AO2
-	var aO2 TapiNotificationContextAugmentation1
+	var aO2 TapiEquipmentContextAugmentation5
 	if err := swag.ReadJSON(raw, &aO2); err != nil {
 		return err
 	}
-	m.TapiNotificationContextAugmentation1 = aO2
+	m.TapiEquipmentContextAugmentation5 = aO2
 
 	// AO3
-	var aO3 TapiOamContextAugmentation2
+	var aO3 TapiNotificationContextAugmentation1
 	if err := swag.ReadJSON(raw, &aO3); err != nil {
 		return err
 	}
-	m.TapiOamContextAugmentation2 = aO3
+	m.TapiNotificationContextAugmentation1 = aO3
 
 	// AO4
-	var aO4 TapiPathComputationContextAugmentation4
+	var aO4 TapiOamContextAugmentation4
 	if err := swag.ReadJSON(raw, &aO4); err != nil {
 		return err
 	}
-	m.TapiPathComputationContextAugmentation4 = aO4
+	m.TapiOamContextAugmentation4 = aO4
 
 	// AO5
-	var aO5 TapiTopologyContextAugmentation6
+	var aO5 TapiPathComputationContextAugmentation2
 	if err := swag.ReadJSON(raw, &aO5); err != nil {
 		return err
 	}
-	m.TapiTopologyContextAugmentation6 = aO5
+	m.TapiPathComputationContextAugmentation2 = aO5
 
 	// AO6
-	var aO6 TapiVirtualNetworkContextAugmentation3
+	var aO6 TapiTopologyContextAugmentation7
 	if err := swag.ReadJSON(raw, &aO6); err != nil {
 		return err
 	}
-	m.TapiVirtualNetworkContextAugmentation3 = aO6
+	m.TapiTopologyContextAugmentation7 = aO6
 
 	// AO7
-	var dataAO7 struct {
+	var aO7 TapiVirtualNetworkContextAugmentation3
+	if err := swag.ReadJSON(raw, &aO7); err != nil {
+		return err
+	}
+	m.TapiVirtualNetworkContextAugmentation3 = aO7
+
+	// AO8
+	var dataAO8 struct {
 		ServiceInterfacePoint []*TapiCommonContextServiceInterfacePoint `json:"service-interface-point"`
 	}
-	if err := swag.ReadJSON(raw, &dataAO7); err != nil {
+	if err := swag.ReadJSON(raw, &dataAO8); err != nil {
 		return err
 	}
 
-	m.ServiceInterfacePoint = dataAO7.ServiceInterfacePoint
+	m.ServiceInterfacePoint = dataAO8.ServiceInterfacePoint
 
 	return nil
 }
 
 // MarshalJSON marshals this object to a JSON structure
 func (m TapiCommonContext) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 8)
+	_parts := make([][]byte, 0, 9)
 
 	aO0, err := swag.WriteJSON(m.TapiCommonGlobalClass)
 	if err != nil {
@@ -109,53 +118,59 @@ func (m TapiCommonContext) MarshalJSON() ([]byte, error) {
 	}
 	_parts = append(_parts, aO0)
 
-	aO1, err := swag.WriteJSON(m.TapiConnectivityContextAugmentation5)
+	aO1, err := swag.WriteJSON(m.TapiConnectivityContextAugmentation6)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO1)
 
-	aO2, err := swag.WriteJSON(m.TapiNotificationContextAugmentation1)
+	aO2, err := swag.WriteJSON(m.TapiEquipmentContextAugmentation5)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO2)
 
-	aO3, err := swag.WriteJSON(m.TapiOamContextAugmentation2)
+	aO3, err := swag.WriteJSON(m.TapiNotificationContextAugmentation1)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO3)
 
-	aO4, err := swag.WriteJSON(m.TapiPathComputationContextAugmentation4)
+	aO4, err := swag.WriteJSON(m.TapiOamContextAugmentation4)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO4)
 
-	aO5, err := swag.WriteJSON(m.TapiTopologyContextAugmentation6)
+	aO5, err := swag.WriteJSON(m.TapiPathComputationContextAugmentation2)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO5)
 
-	aO6, err := swag.WriteJSON(m.TapiVirtualNetworkContextAugmentation3)
+	aO6, err := swag.WriteJSON(m.TapiTopologyContextAugmentation7)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO6)
 
-	var dataAO7 struct {
+	aO7, err := swag.WriteJSON(m.TapiVirtualNetworkContextAugmentation3)
+	if err != nil {
+		return nil, err
+	}
+	_parts = append(_parts, aO7)
+
+	var dataAO8 struct {
 		ServiceInterfacePoint []*TapiCommonContextServiceInterfacePoint `json:"service-interface-point"`
 	}
 
-	dataAO7.ServiceInterfacePoint = m.ServiceInterfacePoint
+	dataAO8.ServiceInterfacePoint = m.ServiceInterfacePoint
 
-	jsonDataAO7, errAO7 := swag.WriteJSON(dataAO7)
-	if errAO7 != nil {
-		return nil, errAO7
+	jsonDataAO8, errAO8 := swag.WriteJSON(dataAO8)
+	if errAO8 != nil {
+		return nil, errAO8
 	}
-	_parts = append(_parts, jsonDataAO7)
+	_parts = append(_parts, jsonDataAO8)
 
 	return swag.ConcatJSON(_parts...), nil
 }
@@ -168,24 +183,28 @@ func (m *TapiCommonContext) Validate(formats strfmt.Registry) error {
 	if err := m.TapiCommonGlobalClass.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-	// validation for a type composition with TapiConnectivityContextAugmentation5
-	if err := m.TapiConnectivityContextAugmentation5.Validate(formats); err != nil {
+	// validation for a type composition with TapiConnectivityContextAugmentation6
+	if err := m.TapiConnectivityContextAugmentation6.Validate(formats); err != nil {
+		res = append(res, err)
+	}
+	// validation for a type composition with TapiEquipmentContextAugmentation5
+	if err := m.TapiEquipmentContextAugmentation5.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 	// validation for a type composition with TapiNotificationContextAugmentation1
 	if err := m.TapiNotificationContextAugmentation1.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-	// validation for a type composition with TapiOamContextAugmentation2
-	if err := m.TapiOamContextAugmentation2.Validate(formats); err != nil {
+	// validation for a type composition with TapiOamContextAugmentation4
+	if err := m.TapiOamContextAugmentation4.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-	// validation for a type composition with TapiPathComputationContextAugmentation4
-	if err := m.TapiPathComputationContextAugmentation4.Validate(formats); err != nil {
+	// validation for a type composition with TapiPathComputationContextAugmentation2
+	if err := m.TapiPathComputationContextAugmentation2.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-	// validation for a type composition with TapiTopologyContextAugmentation6
-	if err := m.TapiTopologyContextAugmentation6.Validate(formats); err != nil {
+	// validation for a type composition with TapiTopologyContextAugmentation7
+	if err := m.TapiTopologyContextAugmentation7.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 	// validation for a type composition with TapiVirtualNetworkContextAugmentation3

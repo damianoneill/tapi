@@ -17,14 +17,14 @@ import (
 type TapiEthEthProActive1DmPerformanceData struct {
 
 	// This attribute contains the statistical near end performnace parameters.
-	ProActiveNearEnd1DmParameters *TapiEthStatisticalDmPerformanceParameters `json:"pro-active-near-end-1-dm-parameters,omitempty"`
+	StatisticalNearEnd1DmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-near-end-1-dm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth pro active1 dm performance data
 func (m *TapiEthEthProActive1DmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateProActiveNearEnd1DmParameters(formats); err != nil {
+	if err := m.validateStatisticalNearEnd1DmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -34,16 +34,16 @@ func (m *TapiEthEthProActive1DmPerformanceData) Validate(formats strfmt.Registry
 	return nil
 }
 
-func (m *TapiEthEthProActive1DmPerformanceData) validateProActiveNearEnd1DmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActive1DmPerformanceData) validateStatisticalNearEnd1DmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveNearEnd1DmParameters) { // not required
+	if swag.IsZero(m.StatisticalNearEnd1DmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveNearEnd1DmParameters != nil {
-		if err := m.ProActiveNearEnd1DmParameters.Validate(formats); err != nil {
+	if m.StatisticalNearEnd1DmParameters != nil {
+		if err := m.StatisticalNearEnd1DmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-near-end-1-dm-parameters")
+				return ve.ValidateName("statistical-near-end-1-dm-parameters")
 			}
 			return err
 		}

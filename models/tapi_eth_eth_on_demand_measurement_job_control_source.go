@@ -15,52 +15,103 @@ import (
 // TapiEthEthOnDemandMeasurementJobControlSource tapi eth eth on demand measurement job control source
 // swagger:model tapi.eth.EthOnDemandMeasurementJobControlSource
 type TapiEthEthOnDemandMeasurementJobControlSource struct {
+	TapiEthEthMeasurementJobControlCommon
 
 	// none
-	ControllerMepID string `json:"controller-mep-id,omitempty"`
+	ControllerMepID int32 `json:"controller-mep-id,omitempty"`
 
 	// This parameter provides the size of the optional data TLV.
-	//                     Non-negative integer represents the number of bytes for the length of the padding TLV.
-	//                     Notes:
-	//                     When configuring this parameter one should be aware of the maximum allowed total frame size limitation.
-	//                     The attribute is not used in case of 2-way loss measurement.
-	//                     range of type : Depends on the allowed MTU size.
+	//                 Non-negative integer represents the number of bytes for the length of the padding TLV.
+	//                 Notes:
+	//                 When configuring this parameter one should be aware of the maximum allowed total frame size limitation.
+	//                 The attribute is not used in case of 2-way loss measurement.
+	//                 range of type : Depends on the allowed MTU size.
 	DataTlvLength int32 `json:"data-tlv-length,omitempty"`
 
 	// This attribute contains the MAC address of the peer MEP. See G.8013 for details.
 	DestinationAddress string `json:"destination-address,omitempty"`
 
-	// This attribute contains the discrete non overlapping periods of time (in seconds) during which measurements are performed (i.e., OAM messages are generated) and reports are gathered at the end of the measurement intervals. Note that the value 0 means a degenerated measurement interval with a single OAM message and the report is sent as immediately as possible.
-	//                     range of type : Non-negative
-	MeasurementInterval int32 `json:"measurement-interval,omitempty"`
-
-	// This attribute contains the frequency of the OAM message (PDU) generation within a series.
-	//                     Note that the value 0 means that only one OAM message per measurement interval is generated.
-	//                     range of type : See corresponding Enum.
-	MessagePeriod TapiEthMessagePeriod `json:"message-period,omitempty"`
-
 	// This attribute contains the pattern that is used for the generation of OAM PDUs.
 	OamPduGenerationType TapiEthOamPduGenerationType `json:"oam-pdu-generation-type,omitempty"`
+}
 
-	// This attribute contains the priority of the OAM PDU frames.
-	//                     range of type : 0, 1, 2, 3, 4, 5, 6, 7
-	Priority *int32 `json:"priority,omitempty"`
+// UnmarshalJSON unmarshals this object from a JSON structure
+func (m *TapiEthEthOnDemandMeasurementJobControlSource) UnmarshalJSON(raw []byte) error {
+	// AO0
+	var aO0 TapiEthEthMeasurementJobControlCommon
+	if err := swag.ReadJSON(raw, &aO0); err != nil {
+		return err
+	}
+	m.TapiEthEthMeasurementJobControlCommon = aO0
 
-	// This attribute contains the time between the start of two measurement intervals. This IS applicable for the repetitive instance type and MAY be applicable for the repetitive series type.
-	//                     Note that a value of 0 means not applicable (NA), which is for the cases of single instance, single series, or repetitive series without extra gap in between the measurement intervals (i.e., also as known as continuous series).
-	RepetitionPeriod TapiEthRepetitionPeriod `json:"repetition-period,omitempty"`
+	// AO1
+	var dataAO1 struct {
+		ControllerMepID int32 `json:"controller-mep-id,omitempty"`
 
-	// This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
-	//                     Note: The attribute is not used in case of LMM/LMR measurement.
-	//                     range of type : 0..(2^32) - 1
-	TestIdentifier int32 `json:"test-identifier,omitempty"`
+		DataTlvLength int32 `json:"data-tlv-length,omitempty"`
+
+		DestinationAddress string `json:"destination-address,omitempty"`
+
+		OamPduGenerationType TapiEthOamPduGenerationType `json:"oam-pdu-generation-type,omitempty"`
+	}
+	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
+		return err
+	}
+
+	m.ControllerMepID = dataAO1.ControllerMepID
+
+	m.DataTlvLength = dataAO1.DataTlvLength
+
+	m.DestinationAddress = dataAO1.DestinationAddress
+
+	m.OamPduGenerationType = dataAO1.OamPduGenerationType
+
+	return nil
+}
+
+// MarshalJSON marshals this object to a JSON structure
+func (m TapiEthEthOnDemandMeasurementJobControlSource) MarshalJSON() ([]byte, error) {
+	_parts := make([][]byte, 0, 2)
+
+	aO0, err := swag.WriteJSON(m.TapiEthEthMeasurementJobControlCommon)
+	if err != nil {
+		return nil, err
+	}
+	_parts = append(_parts, aO0)
+
+	var dataAO1 struct {
+		ControllerMepID int32 `json:"controller-mep-id,omitempty"`
+
+		DataTlvLength int32 `json:"data-tlv-length,omitempty"`
+
+		DestinationAddress string `json:"destination-address,omitempty"`
+
+		OamPduGenerationType TapiEthOamPduGenerationType `json:"oam-pdu-generation-type,omitempty"`
+	}
+
+	dataAO1.ControllerMepID = m.ControllerMepID
+
+	dataAO1.DataTlvLength = m.DataTlvLength
+
+	dataAO1.DestinationAddress = m.DestinationAddress
+
+	dataAO1.OamPduGenerationType = m.OamPduGenerationType
+
+	jsonDataAO1, errAO1 := swag.WriteJSON(dataAO1)
+	if errAO1 != nil {
+		return nil, errAO1
+	}
+	_parts = append(_parts, jsonDataAO1)
+
+	return swag.ConcatJSON(_parts...), nil
 }
 
 // Validate validates this tapi eth eth on demand measurement job control source
 func (m *TapiEthEthOnDemandMeasurementJobControlSource) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateMessagePeriod(formats); err != nil {
+	// validation for a type composition with TapiEthEthMeasurementJobControlCommon
+	if err := m.TapiEthEthMeasurementJobControlCommon.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -68,29 +119,9 @@ func (m *TapiEthEthOnDemandMeasurementJobControlSource) Validate(formats strfmt.
 		res = append(res, err)
 	}
 
-	if err := m.validateRepetitionPeriod(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiEthEthOnDemandMeasurementJobControlSource) validateMessagePeriod(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.MessagePeriod) { // not required
-		return nil
-	}
-
-	if err := m.MessagePeriod.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("message-period")
-		}
-		return err
-	}
-
 	return nil
 }
 
@@ -103,22 +134,6 @@ func (m *TapiEthEthOnDemandMeasurementJobControlSource) validateOamPduGeneration
 	if err := m.OamPduGenerationType.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("oam-pdu-generation-type")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *TapiEthEthOnDemandMeasurementJobControlSource) validateRepetitionPeriod(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.RepetitionPeriod) { // not required
-		return nil
-	}
-
-	if err := m.RepetitionPeriod.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("repetition-period")
 		}
 		return err
 	}

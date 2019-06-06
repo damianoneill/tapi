@@ -34,10 +34,10 @@ type TapiPathComputationRoutingConstraint struct {
 	RiskDiversityCharacteristic []*TapiTopologyRiskCharacteristic `json:"risk-diversity-characteristic"`
 
 	// none
-	RouteDirection TapiCommonForwardingDirection `json:"route-direction,omitempty"`
-
-	// none
 	RouteObjectiveFunction TapiPathComputationRouteObjectiveFunction `json:"route-objective-function,omitempty"`
+
+	// Grades of maximum tolerable disruption to traffic.
+	TolerableImpact string `json:"tolerable-impact,omitempty"`
 }
 
 // Validate validates this tapi path computation routing constraint
@@ -57,10 +57,6 @@ func (m *TapiPathComputationRoutingConstraint) Validate(formats strfmt.Registry)
 	}
 
 	if err := m.validateRiskDiversityCharacteristic(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateRouteDirection(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -160,22 +156,6 @@ func (m *TapiPathComputationRoutingConstraint) validateRiskDiversityCharacterist
 			}
 		}
 
-	}
-
-	return nil
-}
-
-func (m *TapiPathComputationRoutingConstraint) validateRouteDirection(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.RouteDirection) { // not required
-		return nil
-	}
-
-	if err := m.RouteDirection.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("route-direction")
-		}
-		return err
 	}
 
 	return nil

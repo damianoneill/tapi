@@ -17,8 +17,8 @@ import (
 type TapiOduOduTerminationAndClientAdaptationPac struct {
 
 	// This attribute is applicable when the ODU CTP object instance represents a lower order ODU CTP Sink at the client layer of the ODUP/ODU[i]j or ODUP/ODUj-21 adaptation function.
-	//                     This attribute is a 2-digit Hex code that indicates the new accepted payload type.
-	//                     Valid values are defined in Table 15-8 of ITU-T Recommendation G.709 with one additional value UN_INTERPRETABLE.
+	//                 This attribute is a 2-digit Hex code that indicates the new accepted payload type.
+	//                 Valid values are defined in Table 15-8 of ITU-T Recommendation G.709 with one additional value UN_INTERPRETABLE.
 	AcceptedPayloadType *TapiOduOduPayloadType `json:"accepted-payload-type,omitempty"`
 
 	// This attribute is applicable when the ODU CTP object instance represents a lower order ODU CTP Source at the client layer of the ODUP/ODUj-21 adaptation function. The value of true of this attribute configures that the adaptation source function shall fall back to the payload type PT=20 if the conditions specified in 14.3.10.1/G.798 are satisfied.

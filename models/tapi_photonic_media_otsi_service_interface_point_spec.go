@@ -18,6 +18,9 @@ type TapiPhotonicMediaOtsiServiceInterfacePointSpec struct {
 
 	// none
 	OtsiCapability *TapiPhotonicMediaOtsiCapabilityPac `json:"otsi-capability,omitempty"`
+
+	// none
+	PowerManagementCapability *TapiPhotonicMediaPowerManagementCapabilityPac `json:"power-management-capability,omitempty"`
 }
 
 // Validate validates this tapi photonic media otsi service interface point spec
@@ -25,6 +28,10 @@ func (m *TapiPhotonicMediaOtsiServiceInterfacePointSpec) Validate(formats strfmt
 	var res []error
 
 	if err := m.validateOtsiCapability(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePowerManagementCapability(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -44,6 +51,24 @@ func (m *TapiPhotonicMediaOtsiServiceInterfacePointSpec) validateOtsiCapability(
 		if err := m.OtsiCapability.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("otsi-capability")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiPhotonicMediaOtsiServiceInterfacePointSpec) validatePowerManagementCapability(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PowerManagementCapability) { // not required
+		return nil
+	}
+
+	if m.PowerManagementCapability != nil {
+		if err := m.PowerManagementCapability.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("power-management-capability")
 			}
 			return err
 		}

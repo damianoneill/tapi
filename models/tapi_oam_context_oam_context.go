@@ -25,10 +25,10 @@ type TapiOamContextOamContext struct {
 	OamJob []*TapiOamOamcontextOamJob `json:"oam-job"`
 
 	// none
-	OamProfile []*TapiOamOamcontextOamProfile `json:"oam-profile"`
+	OamProfile []*TapiOamOamProfile `json:"oam-profile"`
 
 	// none
-	OamService []*TapiOamOamService `json:"oam-service"`
+	OamService []*TapiOamOamcontextOamService `json:"oam-service"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -39,9 +39,9 @@ func (m *TapiOamContextOamContext) UnmarshalJSON(raw []byte) error {
 
 		OamJob []*TapiOamOamcontextOamJob `json:"oam-job"`
 
-		OamProfile []*TapiOamOamcontextOamProfile `json:"oam-profile"`
+		OamProfile []*TapiOamOamProfile `json:"oam-profile"`
 
-		OamService []*TapiOamOamService `json:"oam-service"`
+		OamService []*TapiOamOamcontextOamService `json:"oam-service"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO0); err != nil {
 		return err
@@ -67,9 +67,9 @@ func (m TapiOamContextOamContext) MarshalJSON() ([]byte, error) {
 
 		OamJob []*TapiOamOamcontextOamJob `json:"oam-job"`
 
-		OamProfile []*TapiOamOamcontextOamProfile `json:"oam-profile"`
+		OamProfile []*TapiOamOamProfile `json:"oam-profile"`
 
-		OamService []*TapiOamOamService `json:"oam-service"`
+		OamService []*TapiOamOamcontextOamService `json:"oam-service"`
 	}
 
 	dataAO0.Meg = m.Meg

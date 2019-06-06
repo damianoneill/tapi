@@ -17,14 +17,14 @@ import (
 type TapiOduMepAugmentation1 struct {
 
 	// none
-	OduConnectionEndPointSpec *TapiOduOduConnectionEndPointSpec `json:"odu-connection-end-point-spec,omitempty"`
+	OduMepSpec *TapiOduOduMepSpec `json:"odu-mep-spec,omitempty"`
 }
 
 // Validate validates this tapi odu mep augmentation1
 func (m *TapiOduMepAugmentation1) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateOduConnectionEndPointSpec(formats); err != nil {
+	if err := m.validateOduMepSpec(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -34,16 +34,16 @@ func (m *TapiOduMepAugmentation1) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TapiOduMepAugmentation1) validateOduConnectionEndPointSpec(formats strfmt.Registry) error {
+func (m *TapiOduMepAugmentation1) validateOduMepSpec(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OduConnectionEndPointSpec) { // not required
+	if swag.IsZero(m.OduMepSpec) { // not required
 		return nil
 	}
 
-	if m.OduConnectionEndPointSpec != nil {
-		if err := m.OduConnectionEndPointSpec.Validate(formats); err != nil {
+	if m.OduMepSpec != nil {
+		if err := m.OduMepSpec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("odu-connection-end-point-spec")
+				return ve.ValidateName("odu-mep-spec")
 			}
 			return err
 		}

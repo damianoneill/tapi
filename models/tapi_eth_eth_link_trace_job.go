@@ -16,11 +16,21 @@ import (
 // swagger:model tapi.eth.EthLinkTraceJob
 type TapiEthEthLinkTraceJob struct {
 
+	// G.8052: This parameter provides the destination address, i.e., the MAC Address of the target MEP or MIP.
+	DestinationAddress string `json:"destination-address,omitempty"`
+
 	// none
-	EthLtMsg *TapiEthEthOamOperationCommonPac `json:"eth-lt-msg,omitempty"`
+	EthCfmLinkTracePac *TapiEthEthCfmLinkTracePac `json:"eth-cfm-link-trace-pac,omitempty"`
+
+	// G.8052: This parameter provides the priority to be used in the LBM frame.
+	//                 G.8052: This parameter provides the priority to be used in the TST frame.
+	Priority *int32 `json:"priority,omitempty"`
 
 	// G.8052: This parameter provides the Time To Live (TTL) parameter of the Link Track protocol.
-	//                     The TTL parameter allows the receiver (MIP or MEP) of the LTM frame to determine if the frame can be terminated. TTL is decremented every time the LTM frame is relayed. LTM frame with TTL<=1 is terminated and not relayed.
+	//                 The TTL parameter allows the receiver (MIP or MEP) of the LTM frame to determine if the frame can be terminated. TTL is decremented every time the LTM frame is relayed. LTM frame with TTL<=1 is terminated and not relayed.
+	//                 IEEE P802.1Qcx/D0.3:
+	//                 MEF 38:
+	//                 An initial value for the LTM TTL field.
 	TimeToLive int32 `json:"time-to-live,omitempty"`
 }
 
@@ -28,7 +38,7 @@ type TapiEthEthLinkTraceJob struct {
 func (m *TapiEthEthLinkTraceJob) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateEthLtMsg(formats); err != nil {
+	if err := m.validateEthCfmLinkTracePac(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -38,16 +48,16 @@ func (m *TapiEthEthLinkTraceJob) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TapiEthEthLinkTraceJob) validateEthLtMsg(formats strfmt.Registry) error {
+func (m *TapiEthEthLinkTraceJob) validateEthCfmLinkTracePac(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.EthLtMsg) { // not required
+	if swag.IsZero(m.EthCfmLinkTracePac) { // not required
 		return nil
 	}
 
-	if m.EthLtMsg != nil {
-		if err := m.EthLtMsg.Validate(formats); err != nil {
+	if m.EthCfmLinkTracePac != nil {
+		if err := m.EthCfmLinkTracePac.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("eth-lt-msg")
+				return ve.ValidateName("eth-cfm-link-trace-pac")
 			}
 			return err
 		}

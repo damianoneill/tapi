@@ -8,6 +8,7 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
@@ -15,8 +16,8 @@ import (
 // swagger:model tapi.eth.EthMipSpec
 type TapiEthEthMipSpec struct {
 
-	// This attribute indicates whether the MIP is a full MIP (true) or a down-half MIP (false).
-	IsFullMip *bool `json:"is-full-mip,omitempty"`
+	// none
+	EthMipCommon *TapiEthEthMipCommon `json:"eth-mip-common,omitempty"`
 
 	// This attribute contains the MAC address of the MIP instance.
 	MipMac string `json:"mip-mac,omitempty"`
@@ -24,6 +25,33 @@ type TapiEthEthMipSpec struct {
 
 // Validate validates this tapi eth eth mip spec
 func (m *TapiEthEthMipSpec) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateEthMipCommon(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *TapiEthEthMipSpec) validateEthMipCommon(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.EthMipCommon) { // not required
+		return nil
+	}
+
+	if m.EthMipCommon != nil {
+		if err := m.EthMipCommon.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("eth-mip-common")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

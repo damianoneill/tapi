@@ -21,23 +21,16 @@ type TapiOamOamcontextMeg struct {
 
 	TapiCommonOperationalStatePac
 
-	TapiEthMegAugmentation1
+	TapiEthMegAugmentation2
 
-	// none
-	Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
+	TapiOduMegAugmentation1
 
 	// none
 	LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
-	// none
-	MegIdentifier string `json:"meg-identifier,omitempty"`
-
-	// none
-	MegLevel int32 `json:"meg-level,omitempty"`
-
 	// 1. ME may have 0 MEPs (case of transit domains where at least 1 MIP is present)
-	//                     2. ME may have 1 MEP (case of edge domaind, where the peer MEP is ouside the managed domain)
-	//                     3. ME may have 2 MEPs
+	//                 2. ME may have 1 MEP (case of edge domaind, where the peer MEP is ouside the managed domain)
+	//                 3. ME may have 2 MEPs
 	Mep []*TapiOamMegMep `json:"mep"`
 
 	// ME may 0, 1, or more MIPs
@@ -61,48 +54,43 @@ func (m *TapiOamOamcontextMeg) UnmarshalJSON(raw []byte) error {
 	m.TapiCommonOperationalStatePac = aO1
 
 	// AO2
-	var aO2 TapiEthMegAugmentation1
+	var aO2 TapiEthMegAugmentation2
 	if err := swag.ReadJSON(raw, &aO2); err != nil {
 		return err
 	}
-	m.TapiEthMegAugmentation1 = aO2
+	m.TapiEthMegAugmentation2 = aO2
 
 	// AO3
-	var dataAO3 struct {
-		Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
+	var aO3 TapiOduMegAugmentation1
+	if err := swag.ReadJSON(raw, &aO3); err != nil {
+		return err
+	}
+	m.TapiOduMegAugmentation1 = aO3
 
+	// AO4
+	var dataAO4 struct {
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
-
-		MegIdentifier string `json:"meg-identifier,omitempty"`
-
-		MegLevel int32 `json:"meg-level,omitempty"`
 
 		Mep []*TapiOamMegMep `json:"mep"`
 
 		Mip []*TapiOamMegMip `json:"mip"`
 	}
-	if err := swag.ReadJSON(raw, &dataAO3); err != nil {
+	if err := swag.ReadJSON(raw, &dataAO4); err != nil {
 		return err
 	}
 
-	m.Direction = dataAO3.Direction
+	m.LayerProtocolName = dataAO4.LayerProtocolName
 
-	m.LayerProtocolName = dataAO3.LayerProtocolName
+	m.Mep = dataAO4.Mep
 
-	m.MegIdentifier = dataAO3.MegIdentifier
-
-	m.MegLevel = dataAO3.MegLevel
-
-	m.Mep = dataAO3.Mep
-
-	m.Mip = dataAO3.Mip
+	m.Mip = dataAO4.Mip
 
 	return nil
 }
 
 // MarshalJSON marshals this object to a JSON structure
 func (m TapiOamOamcontextMeg) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 4)
+	_parts := make([][]byte, 0, 5)
 
 	aO0, err := swag.WriteJSON(m.TapiCommonGlobalClass)
 	if err != nil {
@@ -116,43 +104,37 @@ func (m TapiOamOamcontextMeg) MarshalJSON() ([]byte, error) {
 	}
 	_parts = append(_parts, aO1)
 
-	aO2, err := swag.WriteJSON(m.TapiEthMegAugmentation1)
+	aO2, err := swag.WriteJSON(m.TapiEthMegAugmentation2)
 	if err != nil {
 		return nil, err
 	}
 	_parts = append(_parts, aO2)
 
-	var dataAO3 struct {
-		Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
+	aO3, err := swag.WriteJSON(m.TapiOduMegAugmentation1)
+	if err != nil {
+		return nil, err
+	}
+	_parts = append(_parts, aO3)
 
+	var dataAO4 struct {
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
-
-		MegIdentifier string `json:"meg-identifier,omitempty"`
-
-		MegLevel int32 `json:"meg-level,omitempty"`
 
 		Mep []*TapiOamMegMep `json:"mep"`
 
 		Mip []*TapiOamMegMip `json:"mip"`
 	}
 
-	dataAO3.Direction = m.Direction
+	dataAO4.LayerProtocolName = m.LayerProtocolName
 
-	dataAO3.LayerProtocolName = m.LayerProtocolName
+	dataAO4.Mep = m.Mep
 
-	dataAO3.MegIdentifier = m.MegIdentifier
+	dataAO4.Mip = m.Mip
 
-	dataAO3.MegLevel = m.MegLevel
-
-	dataAO3.Mep = m.Mep
-
-	dataAO3.Mip = m.Mip
-
-	jsonDataAO3, errAO3 := swag.WriteJSON(dataAO3)
-	if errAO3 != nil {
-		return nil, errAO3
+	jsonDataAO4, errAO4 := swag.WriteJSON(dataAO4)
+	if errAO4 != nil {
+		return nil, errAO4
 	}
-	_parts = append(_parts, jsonDataAO3)
+	_parts = append(_parts, jsonDataAO4)
 
 	return swag.ConcatJSON(_parts...), nil
 }
@@ -169,12 +151,12 @@ func (m *TapiOamOamcontextMeg) Validate(formats strfmt.Registry) error {
 	if err := m.TapiCommonOperationalStatePac.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-	// validation for a type composition with TapiEthMegAugmentation1
-	if err := m.TapiEthMegAugmentation1.Validate(formats); err != nil {
+	// validation for a type composition with TapiEthMegAugmentation2
+	if err := m.TapiEthMegAugmentation2.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-
-	if err := m.validateDirection(formats); err != nil {
+	// validation for a type composition with TapiOduMegAugmentation1
+	if err := m.TapiOduMegAugmentation1.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -193,22 +175,6 @@ func (m *TapiOamOamcontextMeg) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiOamOamcontextMeg) validateDirection(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Direction) { // not required
-		return nil
-	}
-
-	if err := m.Direction.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("direction")
-		}
-		return err
-	}
-
 	return nil
 }
 

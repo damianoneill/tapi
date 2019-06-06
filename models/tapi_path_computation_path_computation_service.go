@@ -20,7 +20,13 @@ type TapiPathComputationPathComputationService struct {
 	TapiCommonGlobalClass
 
 	// none
+	Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
+
+	// none
 	EndPoint []*TapiPathComputationPathServiceEndPoint `json:"end-point"`
+
+	// none
+	LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 	// none
 	ObjectiveFunction *TapiPathComputationPathObjectiveFunction `json:"objective-function,omitempty"`
@@ -35,7 +41,7 @@ type TapiPathComputationPathComputationService struct {
 	RoutingConstraint *TapiPathComputationRoutingConstraint `json:"routing-constraint,omitempty"`
 
 	// none
-	TopologyConstraint *TapiPathComputationTopologyConstraint `json:"topology-constraint,omitempty"`
+	TopologyConstraint []*TapiPathComputationTopologyConstraint `json:"topology-constraint"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -49,7 +55,11 @@ func (m *TapiPathComputationPathComputationService) UnmarshalJSON(raw []byte) er
 
 	// AO1
 	var dataAO1 struct {
+		Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
+
 		EndPoint []*TapiPathComputationPathServiceEndPoint `json:"end-point"`
+
+		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 		ObjectiveFunction *TapiPathComputationPathObjectiveFunction `json:"objective-function,omitempty"`
 
@@ -59,13 +69,17 @@ func (m *TapiPathComputationPathComputationService) UnmarshalJSON(raw []byte) er
 
 		RoutingConstraint *TapiPathComputationRoutingConstraint `json:"routing-constraint,omitempty"`
 
-		TopologyConstraint *TapiPathComputationTopologyConstraint `json:"topology-constraint,omitempty"`
+		TopologyConstraint []*TapiPathComputationTopologyConstraint `json:"topology-constraint"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
 	}
 
+	m.Direction = dataAO1.Direction
+
 	m.EndPoint = dataAO1.EndPoint
+
+	m.LayerProtocolName = dataAO1.LayerProtocolName
 
 	m.ObjectiveFunction = dataAO1.ObjectiveFunction
 
@@ -91,7 +105,11 @@ func (m TapiPathComputationPathComputationService) MarshalJSON() ([]byte, error)
 	_parts = append(_parts, aO0)
 
 	var dataAO1 struct {
+		Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
+
 		EndPoint []*TapiPathComputationPathServiceEndPoint `json:"end-point"`
+
+		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 		ObjectiveFunction *TapiPathComputationPathObjectiveFunction `json:"objective-function,omitempty"`
 
@@ -101,10 +119,14 @@ func (m TapiPathComputationPathComputationService) MarshalJSON() ([]byte, error)
 
 		RoutingConstraint *TapiPathComputationRoutingConstraint `json:"routing-constraint,omitempty"`
 
-		TopologyConstraint *TapiPathComputationTopologyConstraint `json:"topology-constraint,omitempty"`
+		TopologyConstraint []*TapiPathComputationTopologyConstraint `json:"topology-constraint"`
 	}
 
+	dataAO1.Direction = m.Direction
+
 	dataAO1.EndPoint = m.EndPoint
+
+	dataAO1.LayerProtocolName = m.LayerProtocolName
 
 	dataAO1.ObjectiveFunction = m.ObjectiveFunction
 
@@ -134,7 +156,15 @@ func (m *TapiPathComputationPathComputationService) Validate(formats strfmt.Regi
 		res = append(res, err)
 	}
 
+	if err := m.validateDirection(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateEndPoint(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLayerProtocolName(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -164,6 +194,22 @@ func (m *TapiPathComputationPathComputationService) Validate(formats strfmt.Regi
 	return nil
 }
 
+func (m *TapiPathComputationPathComputationService) validateDirection(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Direction) { // not required
+		return nil
+	}
+
+	if err := m.Direction.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("direction")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *TapiPathComputationPathComputationService) validateEndPoint(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.EndPoint) { // not required
@@ -184,6 +230,22 @@ func (m *TapiPathComputationPathComputationService) validateEndPoint(formats str
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *TapiPathComputationPathComputationService) validateLayerProtocolName(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LayerProtocolName) { // not required
+		return nil
+	}
+
+	if err := m.LayerProtocolName.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("layer-protocol-name")
+		}
+		return err
 	}
 
 	return nil
@@ -274,13 +336,20 @@ func (m *TapiPathComputationPathComputationService) validateTopologyConstraint(f
 		return nil
 	}
 
-	if m.TopologyConstraint != nil {
-		if err := m.TopologyConstraint.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("topology-constraint")
-			}
-			return err
+	for i := 0; i < len(m.TopologyConstraint); i++ {
+		if swag.IsZero(m.TopologyConstraint[i]) { // not required
+			continue
 		}
+
+		if m.TopologyConstraint[i] != nil {
+			if err := m.TopologyConstraint[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("topology-constraint" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

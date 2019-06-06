@@ -15,7 +15,11 @@ import (
 // swagger:model tapi.eth.EthTestResultData
 type TapiEthEthTestResultData struct {
 
+	// Received TST frames. Optional in case of source only MEP.
+	RecTstFrames int32 `json:"rec-tst-frames,omitempty"`
+
 	// G.8052: This parameter returns the total number of sent TST frames.
+	//                 Optional in case of sink only MEP.
 	SentTstFrames int32 `json:"sent-tst-frames,omitempty"`
 }
 

@@ -8,30 +8,89 @@ package models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 )
 
 // TapiEthEthOnDemandMeasurementJobControlSink tapi eth eth on demand measurement job control sink
 // swagger:model tapi.eth.EthOnDemandMeasurementJobControlSink
 type TapiEthEthOnDemandMeasurementJobControlSink struct {
-
-	// This attribute contains the priority of the OAM PDU frames.
-	//                     range of type : 0, 1, 2, 3, 4, 5, 6, 7
-	Priority *int32 `json:"priority,omitempty"`
+	TapiEthEthMeasurementJobControlCommon
 
 	// none
-	ResponderMepID string `json:"responder-mep-id,omitempty"`
+	SinkMepID int32 `json:"sink-mep-id,omitempty"`
 
 	// This attribute contains the MAC address of the peer MEP. See G.8013 for details.
 	SourceAddress string `json:"source-address,omitempty"`
+}
 
-	// This attribute is used to distinguish each measurement session if multiple measurement sessions are simultaneously activated towards a peer MEP including concurrent on-demand and proactive tests. It must be unique at least within the context of any measurement type for the MEG and initiating MEP.
-	//                     range of type : 0..(2^32) - 1
-	TestIdentifier int32 `json:"test-identifier,omitempty"`
+// UnmarshalJSON unmarshals this object from a JSON structure
+func (m *TapiEthEthOnDemandMeasurementJobControlSink) UnmarshalJSON(raw []byte) error {
+	// AO0
+	var aO0 TapiEthEthMeasurementJobControlCommon
+	if err := swag.ReadJSON(raw, &aO0); err != nil {
+		return err
+	}
+	m.TapiEthEthMeasurementJobControlCommon = aO0
+
+	// AO1
+	var dataAO1 struct {
+		SinkMepID int32 `json:"sink-mep-id,omitempty"`
+
+		SourceAddress string `json:"source-address,omitempty"`
+	}
+	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
+		return err
+	}
+
+	m.SinkMepID = dataAO1.SinkMepID
+
+	m.SourceAddress = dataAO1.SourceAddress
+
+	return nil
+}
+
+// MarshalJSON marshals this object to a JSON structure
+func (m TapiEthEthOnDemandMeasurementJobControlSink) MarshalJSON() ([]byte, error) {
+	_parts := make([][]byte, 0, 2)
+
+	aO0, err := swag.WriteJSON(m.TapiEthEthMeasurementJobControlCommon)
+	if err != nil {
+		return nil, err
+	}
+	_parts = append(_parts, aO0)
+
+	var dataAO1 struct {
+		SinkMepID int32 `json:"sink-mep-id,omitempty"`
+
+		SourceAddress string `json:"source-address,omitempty"`
+	}
+
+	dataAO1.SinkMepID = m.SinkMepID
+
+	dataAO1.SourceAddress = m.SourceAddress
+
+	jsonDataAO1, errAO1 := swag.WriteJSON(dataAO1)
+	if errAO1 != nil {
+		return nil, errAO1
+	}
+	_parts = append(_parts, jsonDataAO1)
+
+	return swag.ConcatJSON(_parts...), nil
 }
 
 // Validate validates this tapi eth eth on demand measurement job control sink
 func (m *TapiEthEthOnDemandMeasurementJobControlSink) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	// validation for a type composition with TapiEthEthMeasurementJobControlCommon
+	if err := m.TapiEthEthMeasurementJobControlCommon.Validate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 

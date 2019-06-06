@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"strconv"
+
 	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
@@ -17,11 +19,17 @@ import (
 type TapiOamPmThresholdData struct {
 	TapiCommonLocalClass
 
+	// This attribute allows an PMThresholdData instance to be constrained to specific job types. If an PMThresholdData instance is so configured to be applicable to more than one job type (worst case ALL), only the parameters relevant for the job instance will be used (non-applicable profile parameters will be ignored)
+	ApplicableJobType []string `json:"applicable-job-type"`
+
 	// none
 	GranularityPeriod *TapiCommonTimePeriod `json:"granularity-period,omitempty"`
 
 	// none
 	IsTransient *bool `json:"is-transient,omitempty"`
+
+	// none
+	ThresholdParameter []*TapiOamThresholdParameter `json:"threshold-parameter"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -35,17 +43,25 @@ func (m *TapiOamPmThresholdData) UnmarshalJSON(raw []byte) error {
 
 	// AO1
 	var dataAO1 struct {
+		ApplicableJobType []string `json:"applicable-job-type"`
+
 		GranularityPeriod *TapiCommonTimePeriod `json:"granularity-period,omitempty"`
 
 		IsTransient *bool `json:"is-transient,omitempty"`
+
+		ThresholdParameter []*TapiOamThresholdParameter `json:"threshold-parameter"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
 	}
 
+	m.ApplicableJobType = dataAO1.ApplicableJobType
+
 	m.GranularityPeriod = dataAO1.GranularityPeriod
 
 	m.IsTransient = dataAO1.IsTransient
+
+	m.ThresholdParameter = dataAO1.ThresholdParameter
 
 	return nil
 }
@@ -61,14 +77,22 @@ func (m TapiOamPmThresholdData) MarshalJSON() ([]byte, error) {
 	_parts = append(_parts, aO0)
 
 	var dataAO1 struct {
+		ApplicableJobType []string `json:"applicable-job-type"`
+
 		GranularityPeriod *TapiCommonTimePeriod `json:"granularity-period,omitempty"`
 
 		IsTransient *bool `json:"is-transient,omitempty"`
+
+		ThresholdParameter []*TapiOamThresholdParameter `json:"threshold-parameter"`
 	}
+
+	dataAO1.ApplicableJobType = m.ApplicableJobType
 
 	dataAO1.GranularityPeriod = m.GranularityPeriod
 
 	dataAO1.IsTransient = m.IsTransient
+
+	dataAO1.ThresholdParameter = m.ThresholdParameter
 
 	jsonDataAO1, errAO1 := swag.WriteJSON(dataAO1)
 	if errAO1 != nil {
@@ -92,6 +116,10 @@ func (m *TapiOamPmThresholdData) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateThresholdParameter(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -111,6 +139,31 @@ func (m *TapiOamPmThresholdData) validateGranularityPeriod(formats strfmt.Regist
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *TapiOamPmThresholdData) validateThresholdParameter(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ThresholdParameter) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ThresholdParameter); i++ {
+		if swag.IsZero(m.ThresholdParameter[i]) { // not required
+			continue
+		}
+
+		if m.ThresholdParameter[i] != nil {
+			if err := m.ThresholdParameter[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("threshold-parameter" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

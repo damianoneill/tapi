@@ -17,14 +17,14 @@ import (
 type TapiEthEthMepSource struct {
 
 	// This attribute specifies the priority of the APS messages.
-	//                     See section 8.1.5    APS insert process in G.8021.
+	//                 See section 8.1.5    APS insert process in G.8021.
 	ApsPriority *int32 `json:"aps-priority,omitempty"`
 
 	// This attribute models the combination of all CSF related MI signals (MI_CSF_Enable, MI_CSFrdifdi_Enable, MI_CSFdci_Enable) as defined in G.8021.
 	CsfConfig TapiEthCsfConfig `json:"csf-config,omitempty"`
 
 	// This attribute models the MI_CSF_Period signal defined in G.8021 and configured as specified in G8051. It is the period at which the CSF messages should be sent.
-	//                     range of type : 1s, 1min
+	//                 range of type : 1s, 1min
 	CsfPeriod TapiEthOamPeriod `json:"csf-period,omitempty"`
 
 	// This attribute models the MI_CSF_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the CSF messages should be sent

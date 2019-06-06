@@ -29,6 +29,9 @@ type TapiTopologyNodeEdgePoint struct {
 	AggregatedNodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"aggregated-node-edge-point"`
 
 	// none
+	AvailableCepLayerProtocol []*TapiTopologyNepLayerProtocolCapability `json:"available-cep-layer-protocol"`
+
+	// none
 	LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 	// The orientation of defined flow at the LinkEnd.
@@ -39,9 +42,6 @@ type TapiTopologyNodeEdgePoint struct {
 
 	// NodeEdgePoint mapped to more than ServiceInterfacePoint (slicing/virtualizing) or a ServiceInterfacePoint mapped to more than one NodeEdgePoint (load balancing/Resilience) should be considered experimental
 	MappedServiceInterfacePoint []*TapiCommonServiceInterfacePointRef `json:"mapped-service-interface-point"`
-
-	// none
-	SupportedCepLayerProtocolQualifier []string `json:"supported-cep-layer-protocol-qualifier"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -78,6 +78,8 @@ func (m *TapiTopologyNodeEdgePoint) UnmarshalJSON(raw []byte) error {
 	var dataAO4 struct {
 		AggregatedNodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"aggregated-node-edge-point"`
 
+		AvailableCepLayerProtocol []*TapiTopologyNepLayerProtocolCapability `json:"available-cep-layer-protocol"`
+
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 		LinkPortDirection TapiCommonPortDirection `json:"link-port-direction,omitempty"`
@@ -85,14 +87,14 @@ func (m *TapiTopologyNodeEdgePoint) UnmarshalJSON(raw []byte) error {
 		LinkPortRole TapiCommonPortRole `json:"link-port-role,omitempty"`
 
 		MappedServiceInterfacePoint []*TapiCommonServiceInterfacePointRef `json:"mapped-service-interface-point"`
-
-		SupportedCepLayerProtocolQualifier []string `json:"supported-cep-layer-protocol-qualifier"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO4); err != nil {
 		return err
 	}
 
 	m.AggregatedNodeEdgePoint = dataAO4.AggregatedNodeEdgePoint
+
+	m.AvailableCepLayerProtocol = dataAO4.AvailableCepLayerProtocol
 
 	m.LayerProtocolName = dataAO4.LayerProtocolName
 
@@ -101,8 +103,6 @@ func (m *TapiTopologyNodeEdgePoint) UnmarshalJSON(raw []byte) error {
 	m.LinkPortRole = dataAO4.LinkPortRole
 
 	m.MappedServiceInterfacePoint = dataAO4.MappedServiceInterfacePoint
-
-	m.SupportedCepLayerProtocolQualifier = dataAO4.SupportedCepLayerProtocolQualifier
 
 	return nil
 }
@@ -138,6 +138,8 @@ func (m TapiTopologyNodeEdgePoint) MarshalJSON() ([]byte, error) {
 	var dataAO4 struct {
 		AggregatedNodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"aggregated-node-edge-point"`
 
+		AvailableCepLayerProtocol []*TapiTopologyNepLayerProtocolCapability `json:"available-cep-layer-protocol"`
+
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 		LinkPortDirection TapiCommonPortDirection `json:"link-port-direction,omitempty"`
@@ -145,11 +147,11 @@ func (m TapiTopologyNodeEdgePoint) MarshalJSON() ([]byte, error) {
 		LinkPortRole TapiCommonPortRole `json:"link-port-role,omitempty"`
 
 		MappedServiceInterfacePoint []*TapiCommonServiceInterfacePointRef `json:"mapped-service-interface-point"`
-
-		SupportedCepLayerProtocolQualifier []string `json:"supported-cep-layer-protocol-qualifier"`
 	}
 
 	dataAO4.AggregatedNodeEdgePoint = m.AggregatedNodeEdgePoint
+
+	dataAO4.AvailableCepLayerProtocol = m.AvailableCepLayerProtocol
 
 	dataAO4.LayerProtocolName = m.LayerProtocolName
 
@@ -158,8 +160,6 @@ func (m TapiTopologyNodeEdgePoint) MarshalJSON() ([]byte, error) {
 	dataAO4.LinkPortRole = m.LinkPortRole
 
 	dataAO4.MappedServiceInterfacePoint = m.MappedServiceInterfacePoint
-
-	dataAO4.SupportedCepLayerProtocolQualifier = m.SupportedCepLayerProtocolQualifier
 
 	jsonDataAO4, errAO4 := swag.WriteJSON(dataAO4)
 	if errAO4 != nil {
@@ -192,6 +192,10 @@ func (m *TapiTopologyNodeEdgePoint) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAggregatedNodeEdgePoint(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAvailableCepLayerProtocol(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -232,6 +236,31 @@ func (m *TapiTopologyNodeEdgePoint) validateAggregatedNodeEdgePoint(formats strf
 			if err := m.AggregatedNodeEdgePoint[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("aggregated-node-edge-point" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *TapiTopologyNodeEdgePoint) validateAvailableCepLayerProtocol(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AvailableCepLayerProtocol) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.AvailableCepLayerProtocol); i++ {
+		if swag.IsZero(m.AvailableCepLayerProtocol[i]) { // not required
+			continue
+		}
+
+		if m.AvailableCepLayerProtocol[i] != nil {
+			if err := m.AvailableCepLayerProtocol[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("available-cep-layer-protocol" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

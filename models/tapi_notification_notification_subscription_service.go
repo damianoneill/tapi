@@ -32,10 +32,10 @@ type TapiNotificationNotificationSubscriptionService struct {
 	SubscriptionState TapiNotificationSubscriptionState `json:"subscription-state,omitempty"`
 
 	// none
-	SupportedNotificationTypes []TapiNotificationNotificationType `json:"supported-notification-types"`
+	SupportedNotificationTypes []string `json:"supported-notification-types"`
 
 	// none
-	SupportedObjectTypes []TapiNotificationObjectType `json:"supported-object-types"`
+	SupportedObjectTypes []string `json:"supported-object-types"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -57,9 +57,9 @@ func (m *TapiNotificationNotificationSubscriptionService) UnmarshalJSON(raw []by
 
 		SubscriptionState TapiNotificationSubscriptionState `json:"subscription-state,omitempty"`
 
-		SupportedNotificationTypes []TapiNotificationNotificationType `json:"supported-notification-types"`
+		SupportedNotificationTypes []string `json:"supported-notification-types"`
 
-		SupportedObjectTypes []TapiNotificationObjectType `json:"supported-object-types"`
+		SupportedObjectTypes []string `json:"supported-object-types"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
@@ -99,9 +99,9 @@ func (m TapiNotificationNotificationSubscriptionService) MarshalJSON() ([]byte, 
 
 		SubscriptionState TapiNotificationSubscriptionState `json:"subscription-state,omitempty"`
 
-		SupportedNotificationTypes []TapiNotificationNotificationType `json:"supported-notification-types"`
+		SupportedNotificationTypes []string `json:"supported-notification-types"`
 
-		SupportedObjectTypes []TapiNotificationObjectType `json:"supported-object-types"`
+		SupportedObjectTypes []string `json:"supported-object-types"`
 	}
 
 	dataAO1.Notification = m.Notification
@@ -147,14 +147,6 @@ func (m *TapiNotificationNotificationSubscriptionService) Validate(formats strfm
 	}
 
 	if err := m.validateSubscriptionState(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSupportedNotificationTypes(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateSupportedObjectTypes(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -236,46 +228,6 @@ func (m *TapiNotificationNotificationSubscriptionService) validateSubscriptionSt
 			return ve.ValidateName("subscription-state")
 		}
 		return err
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationNotificationSubscriptionService) validateSupportedNotificationTypes(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.SupportedNotificationTypes) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.SupportedNotificationTypes); i++ {
-
-		if err := m.SupportedNotificationTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("supported-notification-types" + "." + strconv.Itoa(i))
-			}
-			return err
-		}
-
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationNotificationSubscriptionService) validateSupportedObjectTypes(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.SupportedObjectTypes) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.SupportedObjectTypes); i++ {
-
-		if err := m.SupportedObjectTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("supported-object-types" + "." + strconv.Itoa(i))
-			}
-			return err
-		}
-
 	}
 
 	return nil

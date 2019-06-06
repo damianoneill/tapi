@@ -24,6 +24,13 @@ type TapiOamOamJob struct {
 	// none
 	CreationTime string `json:"creation-time,omitempty"`
 
+	// Granularity period of the CurrentData identifies the specific CurrentData instance in the scope of this OamJob.
+	//                 For example, typically at least
+	//                 one 15min and
+	//                 one 24hr;
+	//                 optionally one additional configurable (< 15min)
+	CurrentData []*TapiOamCurrentData `json:"current-data"`
+
 	// none
 	OamJobType string `json:"oam-job-type,omitempty"`
 
@@ -31,14 +38,7 @@ type TapiOamOamJob struct {
 	OamProfile *TapiOamOamProfileRef `json:"oam-profile,omitempty"`
 
 	// none
-	OamServiceEndPoint []*TapiOamOamServiceEndPointRef `json:"oam-service-end-point"`
-
-	// Granularity period of the CurrentData identifies the specific CurrentData instance in the scope of this OamJob.
-	//                     For example, typically at least
-	//                     one 15min and
-	//                     one 24hr;
-	//                     optionally one additional configurable (< 15min)
-	PmCurrentData []*TapiOamPmCurrentData `json:"pm-current-data"`
+	OamServicePoint []*TapiOamOamServicePointRef `json:"oam-service-point"`
 
 	// none
 	Schedule *TapiCommonTimeRange `json:"schedule,omitempty"`
@@ -64,13 +64,13 @@ func (m *TapiOamOamJob) UnmarshalJSON(raw []byte) error {
 	var dataAO2 struct {
 		CreationTime string `json:"creation-time,omitempty"`
 
+		CurrentData []*TapiOamCurrentData `json:"current-data"`
+
 		OamJobType string `json:"oam-job-type,omitempty"`
 
 		OamProfile *TapiOamOamProfileRef `json:"oam-profile,omitempty"`
 
-		OamServiceEndPoint []*TapiOamOamServiceEndPointRef `json:"oam-service-end-point"`
-
-		PmCurrentData []*TapiOamPmCurrentData `json:"pm-current-data"`
+		OamServicePoint []*TapiOamOamServicePointRef `json:"oam-service-point"`
 
 		Schedule *TapiCommonTimeRange `json:"schedule,omitempty"`
 	}
@@ -80,13 +80,13 @@ func (m *TapiOamOamJob) UnmarshalJSON(raw []byte) error {
 
 	m.CreationTime = dataAO2.CreationTime
 
+	m.CurrentData = dataAO2.CurrentData
+
 	m.OamJobType = dataAO2.OamJobType
 
 	m.OamProfile = dataAO2.OamProfile
 
-	m.OamServiceEndPoint = dataAO2.OamServiceEndPoint
-
-	m.PmCurrentData = dataAO2.PmCurrentData
+	m.OamServicePoint = dataAO2.OamServicePoint
 
 	m.Schedule = dataAO2.Schedule
 
@@ -112,26 +112,26 @@ func (m TapiOamOamJob) MarshalJSON() ([]byte, error) {
 	var dataAO2 struct {
 		CreationTime string `json:"creation-time,omitempty"`
 
+		CurrentData []*TapiOamCurrentData `json:"current-data"`
+
 		OamJobType string `json:"oam-job-type,omitempty"`
 
 		OamProfile *TapiOamOamProfileRef `json:"oam-profile,omitempty"`
 
-		OamServiceEndPoint []*TapiOamOamServiceEndPointRef `json:"oam-service-end-point"`
-
-		PmCurrentData []*TapiOamPmCurrentData `json:"pm-current-data"`
+		OamServicePoint []*TapiOamOamServicePointRef `json:"oam-service-point"`
 
 		Schedule *TapiCommonTimeRange `json:"schedule,omitempty"`
 	}
 
 	dataAO2.CreationTime = m.CreationTime
 
+	dataAO2.CurrentData = m.CurrentData
+
 	dataAO2.OamJobType = m.OamJobType
 
 	dataAO2.OamProfile = m.OamProfile
 
-	dataAO2.OamServiceEndPoint = m.OamServiceEndPoint
-
-	dataAO2.PmCurrentData = m.PmCurrentData
+	dataAO2.OamServicePoint = m.OamServicePoint
 
 	dataAO2.Schedule = m.Schedule
 
@@ -157,15 +157,15 @@ func (m *TapiOamOamJob) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateCurrentData(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateOamProfile(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateOamServiceEndPoint(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validatePmCurrentData(formats); err != nil {
+	if err := m.validateOamServicePoint(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -176,6 +176,31 @@ func (m *TapiOamOamJob) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *TapiOamOamJob) validateCurrentData(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.CurrentData) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.CurrentData); i++ {
+		if swag.IsZero(m.CurrentData[i]) { // not required
+			continue
+		}
+
+		if m.CurrentData[i] != nil {
+			if err := m.CurrentData[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("current-data" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -197,46 +222,21 @@ func (m *TapiOamOamJob) validateOamProfile(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TapiOamOamJob) validateOamServiceEndPoint(formats strfmt.Registry) error {
+func (m *TapiOamOamJob) validateOamServicePoint(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OamServiceEndPoint) { // not required
+	if swag.IsZero(m.OamServicePoint) { // not required
 		return nil
 	}
 
-	for i := 0; i < len(m.OamServiceEndPoint); i++ {
-		if swag.IsZero(m.OamServiceEndPoint[i]) { // not required
+	for i := 0; i < len(m.OamServicePoint); i++ {
+		if swag.IsZero(m.OamServicePoint[i]) { // not required
 			continue
 		}
 
-		if m.OamServiceEndPoint[i] != nil {
-			if err := m.OamServiceEndPoint[i].Validate(formats); err != nil {
+		if m.OamServicePoint[i] != nil {
+			if err := m.OamServicePoint[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("oam-service-end-point" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *TapiOamOamJob) validatePmCurrentData(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.PmCurrentData) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.PmCurrentData); i++ {
-		if swag.IsZero(m.PmCurrentData[i]) { // not required
-			continue
-		}
-
-		if m.PmCurrentData[i] != nil {
-			if err := m.PmCurrentData[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("pm-current-data" + "." + strconv.Itoa(i))
+					return ve.ValidateName("oam-service-point" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

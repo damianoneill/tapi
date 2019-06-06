@@ -16,35 +16,30 @@ import (
 // swagger:model tapi.eth.EthMepCommon
 type TapiEthEthMepCommon struct {
 
-	// This attribute models the MI_CC_Period signal defined in G.8021 and configured as specified in G8051.
-	//                     It is the period at which the CCM message should be sent.
-	//                     Default values are: 3.33 ms for PS, 100 ms for PM, 1 s for FM.
-	CcPeriod TapiEthOamPeriod `json:"cc-period,omitempty"`
-
 	// This attribute models the MI_CC_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the CCM message should be sent.
 	CcPriority *int32 `json:"cc-priority,omitempty"`
 
-	// This attribute models the MI_CC_Enable signal defined in G.8021 and configured as specified in G8051.
-	IsCcEnabled *bool `json:"is-cc-enabled,omitempty"`
+	// This attribute specifies the directionality of the Ethernet MEP with respect to the associated CEP. The value of TRUE means that the sink part of the MEP terminates the same signal direction as the sink part of the CEP. The Source part behaves similarly. This attribute is meaningful only when CEP is bidirectional.
+	Codirectional *bool `json:"codirectional,omitempty"`
 
 	// This attribute models the MI_LCK_Period signal defined in G.8021 and configured as specified in G8051. It is the frequency at which the LCK messages should be sent.
-	//                     range of type : 1s, 1min
+	//                 range of type : 1s, 1min
 	LckPeriod TapiEthOamPeriod `json:"lck-period,omitempty"`
 
 	// This attribute models the MI_LCK_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the LCK messages should be sent.
 	LckPriority *int32 `json:"lck-priority,omitempty"`
 
-	// This attribute contains the MAC Address of the MEP.
-	MepMac string `json:"mep-mac,omitempty"`
+	// IEEE P802.1Qcx/D0.3:
+	//                 MEF 38:
+	//                 Integer that is unique among all the MEPs in the same Maintenance Association (MEG).
+	//                 G.8052:
+	//                 This attribute contains the identifier of the MEP.
+	MepIdentifier int32 `json:"mep-identifier,omitempty"`
 }
 
 // Validate validates this tapi eth eth mep common
 func (m *TapiEthEthMepCommon) Validate(formats strfmt.Registry) error {
 	var res []error
-
-	if err := m.validateCcPeriod(formats); err != nil {
-		res = append(res, err)
-	}
 
 	if err := m.validateLckPeriod(formats); err != nil {
 		res = append(res, err)
@@ -53,22 +48,6 @@ func (m *TapiEthEthMepCommon) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiEthEthMepCommon) validateCcPeriod(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.CcPeriod) { // not required
-		return nil
-	}
-
-	if err := m.CcPeriod.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("cc-period")
-		}
-		return err
-	}
-
 	return nil
 }
 

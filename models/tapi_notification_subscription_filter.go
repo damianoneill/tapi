@@ -26,13 +26,13 @@ type TapiNotificationSubscriptionFilter struct {
 	RequestedLayerProtocols []TapiCommonLayerProtocolName `json:"requested-layer-protocols"`
 
 	// none
-	RequestedNotificationTypes []TapiNotificationNotificationType `json:"requested-notification-types"`
+	RequestedNotificationTypes []string `json:"requested-notification-types"`
 
 	// none
 	RequestedObjectIdentifier []string `json:"requested-object-identifier"`
 
 	// none
-	RequestedObjectTypes []TapiNotificationObjectType `json:"requested-object-types"`
+	RequestedObjectTypes []string `json:"requested-object-types"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -50,11 +50,11 @@ func (m *TapiNotificationSubscriptionFilter) UnmarshalJSON(raw []byte) error {
 
 		RequestedLayerProtocols []TapiCommonLayerProtocolName `json:"requested-layer-protocols"`
 
-		RequestedNotificationTypes []TapiNotificationNotificationType `json:"requested-notification-types"`
+		RequestedNotificationTypes []string `json:"requested-notification-types"`
 
 		RequestedObjectIdentifier []string `json:"requested-object-identifier"`
 
-		RequestedObjectTypes []TapiNotificationObjectType `json:"requested-object-types"`
+		RequestedObjectTypes []string `json:"requested-object-types"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
@@ -88,11 +88,11 @@ func (m TapiNotificationSubscriptionFilter) MarshalJSON() ([]byte, error) {
 
 		RequestedLayerProtocols []TapiCommonLayerProtocolName `json:"requested-layer-protocols"`
 
-		RequestedNotificationTypes []TapiNotificationNotificationType `json:"requested-notification-types"`
+		RequestedNotificationTypes []string `json:"requested-notification-types"`
 
 		RequestedObjectIdentifier []string `json:"requested-object-identifier"`
 
-		RequestedObjectTypes []TapiNotificationObjectType `json:"requested-object-types"`
+		RequestedObjectTypes []string `json:"requested-object-types"`
 	}
 
 	dataAO1.IncludeContent = m.IncludeContent
@@ -127,14 +127,6 @@ func (m *TapiNotificationSubscriptionFilter) Validate(formats strfmt.Registry) e
 		res = append(res, err)
 	}
 
-	if err := m.validateRequestedNotificationTypes(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateRequestedObjectTypes(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -152,46 +144,6 @@ func (m *TapiNotificationSubscriptionFilter) validateRequestedLayerProtocols(for
 		if err := m.RequestedLayerProtocols[i].Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("requested-layer-protocols" + "." + strconv.Itoa(i))
-			}
-			return err
-		}
-
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationSubscriptionFilter) validateRequestedNotificationTypes(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.RequestedNotificationTypes) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.RequestedNotificationTypes); i++ {
-
-		if err := m.RequestedNotificationTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("requested-notification-types" + "." + strconv.Itoa(i))
-			}
-			return err
-		}
-
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationSubscriptionFilter) validateRequestedObjectTypes(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.RequestedObjectTypes) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.RequestedObjectTypes); i++ {
-
-		if err := m.RequestedObjectTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("requested-object-types" + "." + strconv.Itoa(i))
 			}
 			return err
 		}

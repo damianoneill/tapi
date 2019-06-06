@@ -18,14 +18,21 @@ import (
 // swagger:model tapi.eth.EthLinkTraceResultData
 type TapiEthEthLinkTraceResultData struct {
 
+	// none
+	EthCfmLinkTraceResultData []*TapiEthEthCfmLinkTraceResultData `json:"eth-cfm-link-trace-result-data"`
+
 	// G.8052: This parameter returns the results of the LT process. It contains a list of the result received from the individual LTR frames.
-	//                     The result from the individual LTR frame include the Source Mac Address, the TTL, and TLV.
+	//                 The result from the individual LTR frame include the Source Mac Address, the TTL, and TLV.
 	ResultList []*TapiEthLinkTraceResult `json:"result-list"`
 }
 
 // Validate validates this tapi eth eth link trace result data
 func (m *TapiEthEthLinkTraceResultData) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateEthCfmLinkTraceResultData(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateResultList(formats); err != nil {
 		res = append(res, err)
@@ -34,6 +41,31 @@ func (m *TapiEthEthLinkTraceResultData) Validate(formats strfmt.Registry) error 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *TapiEthEthLinkTraceResultData) validateEthCfmLinkTraceResultData(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.EthCfmLinkTraceResultData) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.EthCfmLinkTraceResultData); i++ {
+		if swag.IsZero(m.EthCfmLinkTraceResultData[i]) { // not required
+			continue
+		}
+
+		if m.EthCfmLinkTraceResultData[i] != nil {
+			if err := m.EthCfmLinkTraceResultData[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("eth-cfm-link-trace-result-data" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

@@ -16,9 +16,6 @@ import (
 // swagger:model tapi.common.Capacity
 type TapiCommonCapacity struct {
 
-	// none
-	BandwidthProfile *TapiCommonBandwidthProfile `json:"bandwidth-profile,omitempty"`
-
 	// Total capacity of the TopologicalEntity in MB/s. In case of bandwidthProfile, this is expected to same as the committedInformationRate.
 	TotalSize *TapiCommonCapacityValue `json:"total-size,omitempty"`
 }
@@ -27,10 +24,6 @@ type TapiCommonCapacity struct {
 func (m *TapiCommonCapacity) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateBandwidthProfile(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateTotalSize(formats); err != nil {
 		res = append(res, err)
 	}
@@ -38,24 +31,6 @@ func (m *TapiCommonCapacity) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiCommonCapacity) validateBandwidthProfile(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.BandwidthProfile) { // not required
-		return nil
-	}
-
-	if m.BandwidthProfile != nil {
-		if err := m.BandwidthProfile.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("bandwidth-profile")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 

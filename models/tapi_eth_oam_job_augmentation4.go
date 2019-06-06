@@ -17,14 +17,14 @@ import (
 type TapiEthOamJobAugmentation4 struct {
 
 	// none
-	EthProActive2wayMeasurementJob *TapiEthEthProActive2wayMeasurementJob `json:"eth-pro-active-2way-measurement-job,omitempty"`
+	EthProActiveDualEndedMeasurementJob *TapiEthEthProActiveDualEndedMeasurementJob `json:"eth-pro-active-dual-ended-measurement-job,omitempty"`
 }
 
 // Validate validates this tapi eth oam job augmentation4
 func (m *TapiEthOamJobAugmentation4) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateEthProActive2wayMeasurementJob(formats); err != nil {
+	if err := m.validateEthProActiveDualEndedMeasurementJob(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -34,16 +34,16 @@ func (m *TapiEthOamJobAugmentation4) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TapiEthOamJobAugmentation4) validateEthProActive2wayMeasurementJob(formats strfmt.Registry) error {
+func (m *TapiEthOamJobAugmentation4) validateEthProActiveDualEndedMeasurementJob(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.EthProActive2wayMeasurementJob) { // not required
+	if swag.IsZero(m.EthProActiveDualEndedMeasurementJob) { // not required
 		return nil
 	}
 
-	if m.EthProActive2wayMeasurementJob != nil {
-		if err := m.EthProActive2wayMeasurementJob.Validate(formats); err != nil {
+	if m.EthProActiveDualEndedMeasurementJob != nil {
+		if err := m.EthProActiveDualEndedMeasurementJob.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("eth-pro-active-2way-measurement-job")
+				return ve.ValidateName("eth-pro-active-dual-ended-measurement-job")
 			}
 			return err
 		}

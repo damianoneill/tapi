@@ -21,7 +21,7 @@ type TapiNotificationNotificationChannel struct {
 	NextSequenceNo int32 `json:"next-sequence-no,omitempty"`
 
 	// The address/location/URI of the channel/stream to which the subscribed notifications are published.
-	//                     This specifics of this is typically dependent on the implementation protocol & mechanism and hence is typed as a string.
+	//                 This specifics of this is typically dependent on the implementation protocol & mechanism and hence is typed as a string.
 	StreamAddress string `json:"stream-address,omitempty"`
 }
 

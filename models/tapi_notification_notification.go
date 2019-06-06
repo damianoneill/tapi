@@ -26,9 +26,6 @@ type TapiNotificationNotification struct {
 	AdditionalText string `json:"additional-text,omitempty"`
 
 	// none
-	AlarmInfo *TapiNotificationAlarmInfo `json:"alarm-info,omitempty"`
-
-	// none
 	ChangedAttributes []*TapiNotificationNameAndValueChange `json:"changed-attributes"`
 
 	// none
@@ -38,10 +35,13 @@ type TapiNotificationNotification struct {
 	LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
 	// none
-	NotificationType TapiNotificationNotificationType `json:"notification-type,omitempty"`
+	LayerProtocolQualifier string `json:"layer-protocol-qualifier,omitempty"`
+
+	// none
+	NotificationType string `json:"notification-type,omitempty"`
 
 	// A monotonous increasing sequence number associated with the notification.
-	//                     The exact semantics of how this sequence number is assigned (per channel or subscription or source or system) is left undefined.
+	//                 The exact semantics of how this sequence number is assigned (per channel or subscription or source or system) is left undefined.
 	SequenceNumber int32 `json:"sequence-number,omitempty"`
 
 	// none
@@ -54,10 +54,7 @@ type TapiNotificationNotification struct {
 	TargetObjectName []*TapiCommonNameAndValue `json:"target-object-name"`
 
 	// none
-	TargetObjectType TapiNotificationObjectType `json:"target-object-type,omitempty"`
-
-	// none
-	TcaInfo *TapiNotificationTcaInfo `json:"tca-info,omitempty"`
+	TargetObjectType string `json:"target-object-type,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -75,15 +72,15 @@ func (m *TapiNotificationNotification) UnmarshalJSON(raw []byte) error {
 
 		AdditionalText string `json:"additional-text,omitempty"`
 
-		AlarmInfo *TapiNotificationAlarmInfo `json:"alarm-info,omitempty"`
-
 		ChangedAttributes []*TapiNotificationNameAndValueChange `json:"changed-attributes"`
 
 		EventTimeStamp string `json:"event-time-stamp,omitempty"`
 
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
-		NotificationType TapiNotificationNotificationType `json:"notification-type,omitempty"`
+		LayerProtocolQualifier string `json:"layer-protocol-qualifier,omitempty"`
+
+		NotificationType string `json:"notification-type,omitempty"`
 
 		SequenceNumber int32 `json:"sequence-number,omitempty"`
 
@@ -93,9 +90,7 @@ func (m *TapiNotificationNotification) UnmarshalJSON(raw []byte) error {
 
 		TargetObjectName []*TapiCommonNameAndValue `json:"target-object-name"`
 
-		TargetObjectType TapiNotificationObjectType `json:"target-object-type,omitempty"`
-
-		TcaInfo *TapiNotificationTcaInfo `json:"tca-info,omitempty"`
+		TargetObjectType string `json:"target-object-type,omitempty"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
@@ -105,13 +100,13 @@ func (m *TapiNotificationNotification) UnmarshalJSON(raw []byte) error {
 
 	m.AdditionalText = dataAO1.AdditionalText
 
-	m.AlarmInfo = dataAO1.AlarmInfo
-
 	m.ChangedAttributes = dataAO1.ChangedAttributes
 
 	m.EventTimeStamp = dataAO1.EventTimeStamp
 
 	m.LayerProtocolName = dataAO1.LayerProtocolName
+
+	m.LayerProtocolQualifier = dataAO1.LayerProtocolQualifier
 
 	m.NotificationType = dataAO1.NotificationType
 
@@ -124,8 +119,6 @@ func (m *TapiNotificationNotification) UnmarshalJSON(raw []byte) error {
 	m.TargetObjectName = dataAO1.TargetObjectName
 
 	m.TargetObjectType = dataAO1.TargetObjectType
-
-	m.TcaInfo = dataAO1.TcaInfo
 
 	return nil
 }
@@ -145,15 +138,15 @@ func (m TapiNotificationNotification) MarshalJSON() ([]byte, error) {
 
 		AdditionalText string `json:"additional-text,omitempty"`
 
-		AlarmInfo *TapiNotificationAlarmInfo `json:"alarm-info,omitempty"`
-
 		ChangedAttributes []*TapiNotificationNameAndValueChange `json:"changed-attributes"`
 
 		EventTimeStamp string `json:"event-time-stamp,omitempty"`
 
 		LayerProtocolName TapiCommonLayerProtocolName `json:"layer-protocol-name,omitempty"`
 
-		NotificationType TapiNotificationNotificationType `json:"notification-type,omitempty"`
+		LayerProtocolQualifier string `json:"layer-protocol-qualifier,omitempty"`
+
+		NotificationType string `json:"notification-type,omitempty"`
 
 		SequenceNumber int32 `json:"sequence-number,omitempty"`
 
@@ -163,22 +156,20 @@ func (m TapiNotificationNotification) MarshalJSON() ([]byte, error) {
 
 		TargetObjectName []*TapiCommonNameAndValue `json:"target-object-name"`
 
-		TargetObjectType TapiNotificationObjectType `json:"target-object-type,omitempty"`
-
-		TcaInfo *TapiNotificationTcaInfo `json:"tca-info,omitempty"`
+		TargetObjectType string `json:"target-object-type,omitempty"`
 	}
 
 	dataAO1.AdditionalInfo = m.AdditionalInfo
 
 	dataAO1.AdditionalText = m.AdditionalText
 
-	dataAO1.AlarmInfo = m.AlarmInfo
-
 	dataAO1.ChangedAttributes = m.ChangedAttributes
 
 	dataAO1.EventTimeStamp = m.EventTimeStamp
 
 	dataAO1.LayerProtocolName = m.LayerProtocolName
+
+	dataAO1.LayerProtocolQualifier = m.LayerProtocolQualifier
 
 	dataAO1.NotificationType = m.NotificationType
 
@@ -191,8 +182,6 @@ func (m TapiNotificationNotification) MarshalJSON() ([]byte, error) {
 	dataAO1.TargetObjectName = m.TargetObjectName
 
 	dataAO1.TargetObjectType = m.TargetObjectType
-
-	dataAO1.TcaInfo = m.TcaInfo
 
 	jsonDataAO1, errAO1 := swag.WriteJSON(dataAO1)
 	if errAO1 != nil {
@@ -216,10 +205,6 @@ func (m *TapiNotificationNotification) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateAlarmInfo(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateChangedAttributes(formats); err != nil {
 		res = append(res, err)
 	}
@@ -228,23 +213,11 @@ func (m *TapiNotificationNotification) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateNotificationType(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateSourceIndicator(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateTargetObjectName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateTargetObjectType(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateTcaInfo(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -274,24 +247,6 @@ func (m *TapiNotificationNotification) validateAdditionalInfo(formats strfmt.Reg
 			}
 		}
 
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationNotification) validateAlarmInfo(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.AlarmInfo) { // not required
-		return nil
-	}
-
-	if m.AlarmInfo != nil {
-		if err := m.AlarmInfo.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("alarm-info")
-			}
-			return err
-		}
 	}
 
 	return nil
@@ -338,22 +293,6 @@ func (m *TapiNotificationNotification) validateLayerProtocolName(formats strfmt.
 	return nil
 }
 
-func (m *TapiNotificationNotification) validateNotificationType(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.NotificationType) { // not required
-		return nil
-	}
-
-	if err := m.NotificationType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("notification-type")
-		}
-		return err
-	}
-
-	return nil
-}
-
 func (m *TapiNotificationNotification) validateSourceIndicator(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.SourceIndicator) { // not required
@@ -390,40 +329,6 @@ func (m *TapiNotificationNotification) validateTargetObjectName(formats strfmt.R
 			}
 		}
 
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationNotification) validateTargetObjectType(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.TargetObjectType) { // not required
-		return nil
-	}
-
-	if err := m.TargetObjectType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("target-object-type")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *TapiNotificationNotification) validateTcaInfo(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.TcaInfo) { // not required
-		return nil
-	}
-
-	if m.TcaInfo != nil {
-		if err := m.TcaInfo.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tca-info")
-			}
-			return err
-		}
 	}
 
 	return nil

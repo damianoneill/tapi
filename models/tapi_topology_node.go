@@ -39,10 +39,10 @@ type TapiTopologyNode struct {
 	LayerProtocolName []TapiCommonLayerProtocolName `json:"layer-protocol-name"`
 
 	// none
-	NodeRuleGroup []*TapiTopologyNodeRuleGroup `json:"node-rule-group"`
+	NodeEdgePoint []*TapiTopologyNodeEdgePoint `json:"node-edge-point"`
 
 	// none
-	OwnedNodeEdgePoint []*TapiTopologyNodeEdgePoint `json:"owned-node-edge-point"`
+	NodeRuleGroup []*TapiTopologyNodeRuleGroup `json:"node-rule-group"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -97,9 +97,9 @@ func (m *TapiTopologyNode) UnmarshalJSON(raw []byte) error {
 
 		LayerProtocolName []TapiCommonLayerProtocolName `json:"layer-protocol-name"`
 
-		NodeRuleGroup []*TapiTopologyNodeRuleGroup `json:"node-rule-group"`
+		NodeEdgePoint []*TapiTopologyNodeEdgePoint `json:"node-edge-point"`
 
-		OwnedNodeEdgePoint []*TapiTopologyNodeEdgePoint `json:"owned-node-edge-point"`
+		NodeRuleGroup []*TapiTopologyNodeRuleGroup `json:"node-rule-group"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO6); err != nil {
 		return err
@@ -111,9 +111,9 @@ func (m *TapiTopologyNode) UnmarshalJSON(raw []byte) error {
 
 	m.LayerProtocolName = dataAO6.LayerProtocolName
 
-	m.NodeRuleGroup = dataAO6.NodeRuleGroup
+	m.NodeEdgePoint = dataAO6.NodeEdgePoint
 
-	m.OwnedNodeEdgePoint = dataAO6.OwnedNodeEdgePoint
+	m.NodeRuleGroup = dataAO6.NodeRuleGroup
 
 	return nil
 }
@@ -165,9 +165,9 @@ func (m TapiTopologyNode) MarshalJSON() ([]byte, error) {
 
 		LayerProtocolName []TapiCommonLayerProtocolName `json:"layer-protocol-name"`
 
-		NodeRuleGroup []*TapiTopologyNodeRuleGroup `json:"node-rule-group"`
+		NodeEdgePoint []*TapiTopologyNodeEdgePoint `json:"node-edge-point"`
 
-		OwnedNodeEdgePoint []*TapiTopologyNodeEdgePoint `json:"owned-node-edge-point"`
+		NodeRuleGroup []*TapiTopologyNodeRuleGroup `json:"node-rule-group"`
 	}
 
 	dataAO6.AggregatedNodeEdgePoint = m.AggregatedNodeEdgePoint
@@ -176,9 +176,9 @@ func (m TapiTopologyNode) MarshalJSON() ([]byte, error) {
 
 	dataAO6.LayerProtocolName = m.LayerProtocolName
 
-	dataAO6.NodeRuleGroup = m.NodeRuleGroup
+	dataAO6.NodeEdgePoint = m.NodeEdgePoint
 
-	dataAO6.OwnedNodeEdgePoint = m.OwnedNodeEdgePoint
+	dataAO6.NodeRuleGroup = m.NodeRuleGroup
 
 	jsonDataAO6, errAO6 := swag.WriteJSON(dataAO6)
 	if errAO6 != nil {
@@ -230,11 +230,11 @@ func (m *TapiTopologyNode) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateNodeRuleGroup(formats); err != nil {
+	if err := m.validateNodeEdgePoint(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateOwnedNodeEdgePoint(formats); err != nil {
+	if err := m.validateNodeRuleGroup(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -307,6 +307,31 @@ func (m *TapiTopologyNode) validateLayerProtocolName(formats strfmt.Registry) er
 	return nil
 }
 
+func (m *TapiTopologyNode) validateNodeEdgePoint(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.NodeEdgePoint) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.NodeEdgePoint); i++ {
+		if swag.IsZero(m.NodeEdgePoint[i]) { // not required
+			continue
+		}
+
+		if m.NodeEdgePoint[i] != nil {
+			if err := m.NodeEdgePoint[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("node-edge-point" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *TapiTopologyNode) validateNodeRuleGroup(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.NodeRuleGroup) { // not required
@@ -322,31 +347,6 @@ func (m *TapiTopologyNode) validateNodeRuleGroup(formats strfmt.Registry) error 
 			if err := m.NodeRuleGroup[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("node-rule-group" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *TapiTopologyNode) validateOwnedNodeEdgePoint(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.OwnedNodeEdgePoint) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.OwnedNodeEdgePoint); i++ {
-		if swag.IsZero(m.OwnedNodeEdgePoint[i]) { // not required
-			continue
-		}
-
-		if m.OwnedNodeEdgePoint[i] != nil {
-			if err := m.OwnedNodeEdgePoint[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("owned-node-edge-point" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

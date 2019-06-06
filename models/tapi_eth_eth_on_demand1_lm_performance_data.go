@@ -16,15 +16,22 @@ import (
 // swagger:model tapi.eth.EthOnDemand1LmPerformanceData
 type TapiEthEthOnDemand1LmPerformanceData struct {
 
+	// This attribute contains the statistical near end performnace parameters.
+	StatisticalNearEnd1LmParameters *TapiEthStatisticalLmPerformanceParameters `json:"statistical-near-end-1-lm-parameters,omitempty"`
+
 	// This attribute contains the results of an on-demand synthetic loss measurement job in the ingress direction.
-	OnDemandNearEnd1LmParameters *TapiEthOnDemandLmPerformanceParameters `json:"on-demand-near-end-1-lm-parameters,omitempty"`
+	TotalCountersNearEnd1LmParameters *TapiEthTotalCountersLmPerformanceParameters `json:"total-counters-near-end-1-lm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth on demand1 lm performance data
 func (m *TapiEthEthOnDemand1LmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateOnDemandNearEnd1LmParameters(formats); err != nil {
+	if err := m.validateStatisticalNearEnd1LmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTotalCountersNearEnd1LmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -34,16 +41,34 @@ func (m *TapiEthEthOnDemand1LmPerformanceData) Validate(formats strfmt.Registry)
 	return nil
 }
 
-func (m *TapiEthEthOnDemand1LmPerformanceData) validateOnDemandNearEnd1LmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthOnDemand1LmPerformanceData) validateStatisticalNearEnd1LmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OnDemandNearEnd1LmParameters) { // not required
+	if swag.IsZero(m.StatisticalNearEnd1LmParameters) { // not required
 		return nil
 	}
 
-	if m.OnDemandNearEnd1LmParameters != nil {
-		if err := m.OnDemandNearEnd1LmParameters.Validate(formats); err != nil {
+	if m.StatisticalNearEnd1LmParameters != nil {
+		if err := m.StatisticalNearEnd1LmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("on-demand-near-end-1-lm-parameters")
+				return ve.ValidateName("statistical-near-end-1-lm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemand1LmPerformanceData) validateTotalCountersNearEnd1LmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TotalCountersNearEnd1LmParameters) { // not required
+		return nil
+	}
+
+	if m.TotalCountersNearEnd1LmParameters != nil {
+		if err := m.TotalCountersNearEnd1LmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("total-counters-near-end-1-lm-parameters")
 			}
 			return err
 		}

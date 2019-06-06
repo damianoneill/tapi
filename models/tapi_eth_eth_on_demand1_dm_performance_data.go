@@ -17,14 +17,21 @@ import (
 type TapiEthEthOnDemand1DmPerformanceData struct {
 
 	// This attribute contains the results of an on-demand frame delay measurement job in the ingress direction.
-	OnDemandNearEnd1DmParameters *TapiEthOnDemandDmPerformanceParameters `json:"on-demand-near-end-1-dm-parameters,omitempty"`
+	SamplesNearEnd1DmParameters *TapiEthSamplesDmPerformanceParameters `json:"samples-near-end-1-dm-parameters,omitempty"`
+
+	// This attribute contains the statistical near end performnace parameters.
+	StatisticalNearEnd1DmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-near-end-1-dm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth on demand1 dm performance data
 func (m *TapiEthEthOnDemand1DmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateOnDemandNearEnd1DmParameters(formats); err != nil {
+	if err := m.validateSamplesNearEnd1DmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStatisticalNearEnd1DmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -34,16 +41,34 @@ func (m *TapiEthEthOnDemand1DmPerformanceData) Validate(formats strfmt.Registry)
 	return nil
 }
 
-func (m *TapiEthEthOnDemand1DmPerformanceData) validateOnDemandNearEnd1DmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthOnDemand1DmPerformanceData) validateSamplesNearEnd1DmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OnDemandNearEnd1DmParameters) { // not required
+	if swag.IsZero(m.SamplesNearEnd1DmParameters) { // not required
 		return nil
 	}
 
-	if m.OnDemandNearEnd1DmParameters != nil {
-		if err := m.OnDemandNearEnd1DmParameters.Validate(formats); err != nil {
+	if m.SamplesNearEnd1DmParameters != nil {
+		if err := m.SamplesNearEnd1DmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("on-demand-near-end-1-dm-parameters")
+				return ve.ValidateName("samples-near-end-1-dm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemand1DmPerformanceData) validateStatisticalNearEnd1DmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StatisticalNearEnd1DmParameters) { // not required
+		return nil
+	}
+
+	if m.StatisticalNearEnd1DmParameters != nil {
+		if err := m.StatisticalNearEnd1DmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("statistical-near-end-1-dm-parameters")
 			}
 			return err
 		}

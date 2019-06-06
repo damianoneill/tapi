@@ -16,14 +16,14 @@ import (
 type TapiOduOduCommonPac struct {
 
 	// This attribute indicates the rate of the ODU terminatino point.
-	//                     This attribute is Set at create; i.e., once created it cannot be changed directly.
-	//                     In case of resizable ODU flex, its value can be changed via HAO (not directly on the attribute).
+	//                 This attribute is Set at create; i.e., once created it cannot be changed directly.
+	//                 In case of resizable ODU flex, its value can be changed via HAO (not directly on the attribute).
 	//
 	OduRate int32 `json:"odu-rate,omitempty"`
 
 	// This attribute indicates the rate tolerance of the ODU termination point.
-	//                     Valid values are real value in the unit of ppm.
-	//                     Standardized values are defined in Table 7-2/G.709.
+	//                 Valid values are real value in the unit of ppm.
+	//                 Standardized values are defined in Table 7-2/G.709.
 	OduRateTolerance int32 `json:"odu-rate-tolerance,omitempty"`
 
 	// This attribute specifies the type of the ODU termination point.

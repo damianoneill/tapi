@@ -36,8 +36,8 @@ type TapiTopologyLink struct {
 	TapiTopologyValidationPac
 
 	// The directionality of the Link.
-	//                     Is applicable to simple Links where all LinkEnds are BIDIRECTIONAL (the Link will be BIDIRECTIONAL) or UNIDIRECTIONAL (the Link will be UNIDIRECTIONAL).
-	//                     Is not present in more complex cases.
+	//                 Is applicable to simple Links where all LinkEnds are BIDIRECTIONAL (the Link will be BIDIRECTIONAL) or UNIDIRECTIONAL (the Link will be UNIDIRECTIONAL).
+	//                 Is not present in more complex cases.
 	Direction TapiCommonForwardingDirection `json:"direction,omitempty"`
 
 	// none
@@ -47,7 +47,10 @@ type TapiTopologyLink struct {
 	NodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"node-edge-point"`
 
 	// none
-	ResilienceType *TapiTopologyResilienceType `json:"resilience-type,omitempty"`
+	ProtectionType TapiTopologyProtectionType `json:"protection-type,omitempty"`
+
+	// none
+	RestorationPolicy TapiTopologyRestorationPolicy `json:"restoration-policy,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -123,7 +126,9 @@ func (m *TapiTopologyLink) UnmarshalJSON(raw []byte) error {
 
 		NodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"node-edge-point"`
 
-		ResilienceType *TapiTopologyResilienceType `json:"resilience-type,omitempty"`
+		ProtectionType TapiTopologyProtectionType `json:"protection-type,omitempty"`
+
+		RestorationPolicy TapiTopologyRestorationPolicy `json:"restoration-policy,omitempty"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO9); err != nil {
 		return err
@@ -135,7 +140,9 @@ func (m *TapiTopologyLink) UnmarshalJSON(raw []byte) error {
 
 	m.NodeEdgePoint = dataAO9.NodeEdgePoint
 
-	m.ResilienceType = dataAO9.ResilienceType
+	m.ProtectionType = dataAO9.ProtectionType
+
+	m.RestorationPolicy = dataAO9.RestorationPolicy
 
 	return nil
 }
@@ -205,7 +212,9 @@ func (m TapiTopologyLink) MarshalJSON() ([]byte, error) {
 
 		NodeEdgePoint []*TapiTopologyNodeEdgePointRef `json:"node-edge-point"`
 
-		ResilienceType *TapiTopologyResilienceType `json:"resilience-type,omitempty"`
+		ProtectionType TapiTopologyProtectionType `json:"protection-type,omitempty"`
+
+		RestorationPolicy TapiTopologyRestorationPolicy `json:"restoration-policy,omitempty"`
 	}
 
 	dataAO9.Direction = m.Direction
@@ -214,7 +223,9 @@ func (m TapiTopologyLink) MarshalJSON() ([]byte, error) {
 
 	dataAO9.NodeEdgePoint = m.NodeEdgePoint
 
-	dataAO9.ResilienceType = m.ResilienceType
+	dataAO9.ProtectionType = m.ProtectionType
+
+	dataAO9.RestorationPolicy = m.RestorationPolicy
 
 	jsonDataAO9, errAO9 := swag.WriteJSON(dataAO9)
 	if errAO9 != nil {
@@ -278,7 +289,11 @@ func (m *TapiTopologyLink) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateResilienceType(formats); err != nil {
+	if err := m.validateProtectionType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRestorationPolicy(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -349,19 +364,33 @@ func (m *TapiTopologyLink) validateNodeEdgePoint(formats strfmt.Registry) error 
 	return nil
 }
 
-func (m *TapiTopologyLink) validateResilienceType(formats strfmt.Registry) error {
+func (m *TapiTopologyLink) validateProtectionType(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ResilienceType) { // not required
+	if swag.IsZero(m.ProtectionType) { // not required
 		return nil
 	}
 
-	if m.ResilienceType != nil {
-		if err := m.ResilienceType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("resilience-type")
-			}
-			return err
+	if err := m.ProtectionType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("protection-type")
 		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *TapiTopologyLink) validateRestorationPolicy(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.RestorationPolicy) { // not required
+		return nil
+	}
+
+	if err := m.RestorationPolicy.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("restoration-policy")
+		}
+		return err
 	}
 
 	return nil

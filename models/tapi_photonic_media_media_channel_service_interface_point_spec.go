@@ -18,6 +18,9 @@ type TapiPhotonicMediaMediaChannelServiceInterfacePointSpec struct {
 
 	// none
 	McPool *TapiPhotonicMediaMediaChannelPoolCapabilityPac `json:"mc-pool,omitempty"`
+
+	// none
+	PowerManagementCapability *TapiPhotonicMediaPowerManagementCapabilityPac `json:"power-management-capability,omitempty"`
 }
 
 // Validate validates this tapi photonic media media channel service interface point spec
@@ -25,6 +28,10 @@ func (m *TapiPhotonicMediaMediaChannelServiceInterfacePointSpec) Validate(format
 	var res []error
 
 	if err := m.validateMcPool(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePowerManagementCapability(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -44,6 +51,24 @@ func (m *TapiPhotonicMediaMediaChannelServiceInterfacePointSpec) validateMcPool(
 		if err := m.McPool.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("mc-pool")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiPhotonicMediaMediaChannelServiceInterfacePointSpec) validatePowerManagementCapability(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PowerManagementCapability) { // not required
+		return nil
+	}
+
+	if m.PowerManagementCapability != nil {
+		if err := m.PowerManagementCapability.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("power-management-capability")
 			}
 			return err
 		}

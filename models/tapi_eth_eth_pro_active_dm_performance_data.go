@@ -17,28 +17,28 @@ import (
 type TapiEthEthProActiveDmPerformanceData struct {
 
 	// This attribute contains the statistical bidirectional performnace parameters.
-	ProActiveBiDirDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"pro-active-bi-dir-dm-parameters,omitempty"`
+	StatisticalBiDirDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-bi-dir-dm-parameters,omitempty"`
 
 	// This attribute contains the statistical far end performnace parameters.
-	ProActiveFarEndDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"pro-active-far-end-dm-parameters,omitempty"`
+	StatisticalFarEndDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-far-end-dm-parameters,omitempty"`
 
 	// This attribute contains the statistical near end performnace parameters.
-	ProActiveNearEndDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"pro-active-near-end-dm-parameters,omitempty"`
+	StatisticalNearEndDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-near-end-dm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth pro active dm performance data
 func (m *TapiEthEthProActiveDmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateProActiveBiDirDmParameters(formats); err != nil {
+	if err := m.validateStatisticalBiDirDmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateProActiveFarEndDmParameters(formats); err != nil {
+	if err := m.validateStatisticalFarEndDmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateProActiveNearEndDmParameters(formats); err != nil {
+	if err := m.validateStatisticalNearEndDmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -48,16 +48,16 @@ func (m *TapiEthEthProActiveDmPerformanceData) Validate(formats strfmt.Registry)
 	return nil
 }
 
-func (m *TapiEthEthProActiveDmPerformanceData) validateProActiveBiDirDmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActiveDmPerformanceData) validateStatisticalBiDirDmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveBiDirDmParameters) { // not required
+	if swag.IsZero(m.StatisticalBiDirDmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveBiDirDmParameters != nil {
-		if err := m.ProActiveBiDirDmParameters.Validate(formats); err != nil {
+	if m.StatisticalBiDirDmParameters != nil {
+		if err := m.StatisticalBiDirDmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-bi-dir-dm-parameters")
+				return ve.ValidateName("statistical-bi-dir-dm-parameters")
 			}
 			return err
 		}
@@ -66,16 +66,16 @@ func (m *TapiEthEthProActiveDmPerformanceData) validateProActiveBiDirDmParameter
 	return nil
 }
 
-func (m *TapiEthEthProActiveDmPerformanceData) validateProActiveFarEndDmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActiveDmPerformanceData) validateStatisticalFarEndDmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveFarEndDmParameters) { // not required
+	if swag.IsZero(m.StatisticalFarEndDmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveFarEndDmParameters != nil {
-		if err := m.ProActiveFarEndDmParameters.Validate(formats); err != nil {
+	if m.StatisticalFarEndDmParameters != nil {
+		if err := m.StatisticalFarEndDmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-far-end-dm-parameters")
+				return ve.ValidateName("statistical-far-end-dm-parameters")
 			}
 			return err
 		}
@@ -84,16 +84,16 @@ func (m *TapiEthEthProActiveDmPerformanceData) validateProActiveFarEndDmParamete
 	return nil
 }
 
-func (m *TapiEthEthProActiveDmPerformanceData) validateProActiveNearEndDmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthProActiveDmPerformanceData) validateStatisticalNearEndDmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ProActiveNearEndDmParameters) { // not required
+	if swag.IsZero(m.StatisticalNearEndDmParameters) { // not required
 		return nil
 	}
 
-	if m.ProActiveNearEndDmParameters != nil {
-		if err := m.ProActiveNearEndDmParameters.Validate(formats); err != nil {
+	if m.StatisticalNearEndDmParameters != nil {
+		if err := m.StatisticalNearEndDmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pro-active-near-end-dm-parameters")
+				return ve.ValidateName("statistical-near-end-dm-parameters")
 			}
 			return err
 		}

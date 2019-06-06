@@ -17,7 +17,7 @@ import (
 type TapiEthEthMepSink struct {
 
 	// This attribute models the MI_AIS_Period signal defined in G.8021 and configured as specified in G8051. It is the frequency at which the AIS messages should be sent.
-	//                     range of type : 1s, 1min
+	//                 range of type : 1s, 1min
 	AisPeriod TapiEthOamPeriod `json:"ais-period,omitempty"`
 
 	// This attribute models the MI_AIS_Pri signal defined in G.8021 and configured as specified in G8051. It is the priority at which the AIS messages should be sent.
@@ -26,10 +26,9 @@ type TapiEthEthMepSink struct {
 	// This attribute models the content of the bandwidth report received by the MEP Sink from the peer MEP Source.
 	BandwidthReport *TapiEthBandwidthReport `json:"bandwidth-report,omitempty"`
 
-	// This attribute indicates the list of 1DM priorities for the MepSink.
-	Dm1Priority []int32 `json:"dm-1-priority"`
-
 	// This attribute models the MI_CSFrdifdiEnable signal defined in G.8021 and configured as specified in G8051.
+	//                 aSSFrdi  dCSF-RDI and MI_CSFrdifdiEnable
+	//                 aSSFfdi  dCSF-FDI and MI_CSFrdifdiEnable
 	IsCsfRdiFdiEnabled *bool `json:"is-csf-rdi-fdi-enabled,omitempty"`
 
 	// This attribute models the MI_CSF_Reported signal defined in G.8021 and configured as specified in G8051. It configures whether the secondary failure CSF should be reported or not.
@@ -46,6 +45,15 @@ type TapiEthEthMepSink struct {
 
 	// This attribute defines the necessary number of transmitted frames to enable the detection of 'bad seconds'. See also section 'Degraded signal defect (dDEG)' in G.8021.
 	LmTfMin int32 `json:"lm-tf-min,omitempty"`
+
+	// G.8052:
+	//                 This attribute models the MI_PeerMEP_ID[i] signal defined in G.8021 and configured as specified in G.8051. It provides the identifiers of the MEPs which are peer to the subject MEP.
+	PeerMepIdentifier []int32 `json:"peer-mep-identifier"`
+
+	// IEEE P802.1Qcx/D0.3:
+	//                 MEF 38:
+	//                 The total number of unexpected LTRs received.
+	UnexpectedLtrReceived int32 `json:"unexpected-ltr-received,omitempty"`
 }
 
 // Validate validates this tapi eth eth mep sink

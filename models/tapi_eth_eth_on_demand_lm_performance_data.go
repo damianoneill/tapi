@@ -16,22 +16,41 @@ import (
 // swagger:model tapi.eth.EthOnDemandLmPerformanceData
 type TapiEthEthOnDemandLmPerformanceData struct {
 
+	// A generalized (bidirectional) UAS.
+	//                 MEF 35.1: A 32-bit counter reflecting the number of delta-t intervals evaluated as Unavailable (i.e., for which A<Controller, Responder>(delta-t) = 0).
+	//
+	BidirUnavailableIntervals int32 `json:"bidir-unavailable-intervals,omitempty"`
+
+	// This attribute contains the statistical far end performnace parameters.
+	StatisticalFarEndLmParameters *TapiEthStatisticalLmPerformanceParameters `json:"statistical-far-end-lm-parameters,omitempty"`
+
+	// This attribute contains the statistical near end performnace parameters.
+	StatisticalNearEndLmParameters *TapiEthStatisticalLmPerformanceParameters `json:"statistical-near-end-lm-parameters,omitempty"`
+
 	// This attribute contains the results of an on-demand synthetic loss measurement job in the egress direction.
-	OnDemandFarEndLmParameters *TapiEthOnDemandLmPerformanceParameters `json:"on-demand-far-end-lm-parameters,omitempty"`
+	TotalCountersFarEndLmParameters *TapiEthTotalCountersLmPerformanceParameters `json:"total-counters-far-end-lm-parameters,omitempty"`
 
 	// This attribute contains the results of an on-demand synthetic loss measurement job in the ingress direction.
-	OnDemandNearEndLmParameters *TapiEthOnDemandLmPerformanceParameters `json:"on-demand-near-end-lm-parameters,omitempty"`
+	TotalCountersNearEndLmParameters *TapiEthTotalCountersLmPerformanceParameters `json:"total-counters-near-end-lm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth on demand lm performance data
 func (m *TapiEthEthOnDemandLmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateOnDemandFarEndLmParameters(formats); err != nil {
+	if err := m.validateStatisticalFarEndLmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateOnDemandNearEndLmParameters(formats); err != nil {
+	if err := m.validateStatisticalNearEndLmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTotalCountersFarEndLmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTotalCountersNearEndLmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -41,16 +60,16 @@ func (m *TapiEthEthOnDemandLmPerformanceData) Validate(formats strfmt.Registry) 
 	return nil
 }
 
-func (m *TapiEthEthOnDemandLmPerformanceData) validateOnDemandFarEndLmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthOnDemandLmPerformanceData) validateStatisticalFarEndLmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OnDemandFarEndLmParameters) { // not required
+	if swag.IsZero(m.StatisticalFarEndLmParameters) { // not required
 		return nil
 	}
 
-	if m.OnDemandFarEndLmParameters != nil {
-		if err := m.OnDemandFarEndLmParameters.Validate(formats); err != nil {
+	if m.StatisticalFarEndLmParameters != nil {
+		if err := m.StatisticalFarEndLmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("on-demand-far-end-lm-parameters")
+				return ve.ValidateName("statistical-far-end-lm-parameters")
 			}
 			return err
 		}
@@ -59,16 +78,52 @@ func (m *TapiEthEthOnDemandLmPerformanceData) validateOnDemandFarEndLmParameters
 	return nil
 }
 
-func (m *TapiEthEthOnDemandLmPerformanceData) validateOnDemandNearEndLmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthOnDemandLmPerformanceData) validateStatisticalNearEndLmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OnDemandNearEndLmParameters) { // not required
+	if swag.IsZero(m.StatisticalNearEndLmParameters) { // not required
 		return nil
 	}
 
-	if m.OnDemandNearEndLmParameters != nil {
-		if err := m.OnDemandNearEndLmParameters.Validate(formats); err != nil {
+	if m.StatisticalNearEndLmParameters != nil {
+		if err := m.StatisticalNearEndLmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("on-demand-near-end-lm-parameters")
+				return ve.ValidateName("statistical-near-end-lm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemandLmPerformanceData) validateTotalCountersFarEndLmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TotalCountersFarEndLmParameters) { // not required
+		return nil
+	}
+
+	if m.TotalCountersFarEndLmParameters != nil {
+		if err := m.TotalCountersFarEndLmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("total-counters-far-end-lm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemandLmPerformanceData) validateTotalCountersNearEndLmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TotalCountersNearEndLmParameters) { // not required
+		return nil
+	}
+
+	if m.TotalCountersNearEndLmParameters != nil {
+		if err := m.TotalCountersNearEndLmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("total-counters-near-end-lm-parameters")
 			}
 			return err
 		}

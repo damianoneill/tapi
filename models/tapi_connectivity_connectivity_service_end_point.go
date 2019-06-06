@@ -36,11 +36,20 @@ type TapiConnectivityConnectivityServiceEndPoint struct {
 	// none
 	LayerProtocolQualifier string `json:"layer-protocol-qualifier,omitempty"`
 
+	// none
+	PeerFwdConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"peer-fwd-connectivity-service-end-point,omitempty"`
+
+	// none
+	ProtectingConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"protecting-connectivity-service-end-point,omitempty"`
+
 	// To specify the protection role of this Port when create or update ConnectivityService.
 	ProtectionRole TapiConnectivityProtectionRole `json:"protection-role,omitempty"`
 
 	// Each EP of the FC has a role (e.g., working, protection, protected, symmetric, hub, spoke, leaf, root)  in the context of the FC with respect to the FC function.
 	Role TapiCommonPortRole `json:"role,omitempty"`
+
+	// none
+	ServerConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"server-connectivity-service-end-point,omitempty"`
 
 	// none
 	ServiceInterfacePoint *TapiCommonServiceInterfacePointRef `json:"service-interface-point,omitempty"`
@@ -74,9 +83,15 @@ func (m *TapiConnectivityConnectivityServiceEndPoint) UnmarshalJSON(raw []byte) 
 
 		LayerProtocolQualifier string `json:"layer-protocol-qualifier,omitempty"`
 
+		PeerFwdConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"peer-fwd-connectivity-service-end-point,omitempty"`
+
+		ProtectingConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"protecting-connectivity-service-end-point,omitempty"`
+
 		ProtectionRole TapiConnectivityProtectionRole `json:"protection-role,omitempty"`
 
 		Role TapiCommonPortRole `json:"role,omitempty"`
+
+		ServerConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"server-connectivity-service-end-point,omitempty"`
 
 		ServiceInterfacePoint *TapiCommonServiceInterfacePointRef `json:"service-interface-point,omitempty"`
 	}
@@ -94,9 +109,15 @@ func (m *TapiConnectivityConnectivityServiceEndPoint) UnmarshalJSON(raw []byte) 
 
 	m.LayerProtocolQualifier = dataAO2.LayerProtocolQualifier
 
+	m.PeerFwdConnectivityServiceEndPoint = dataAO2.PeerFwdConnectivityServiceEndPoint
+
+	m.ProtectingConnectivityServiceEndPoint = dataAO2.ProtectingConnectivityServiceEndPoint
+
 	m.ProtectionRole = dataAO2.ProtectionRole
 
 	m.Role = dataAO2.Role
+
+	m.ServerConnectivityServiceEndPoint = dataAO2.ServerConnectivityServiceEndPoint
 
 	m.ServiceInterfacePoint = dataAO2.ServiceInterfacePoint
 
@@ -130,9 +151,15 @@ func (m TapiConnectivityConnectivityServiceEndPoint) MarshalJSON() ([]byte, erro
 
 		LayerProtocolQualifier string `json:"layer-protocol-qualifier,omitempty"`
 
+		PeerFwdConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"peer-fwd-connectivity-service-end-point,omitempty"`
+
+		ProtectingConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"protecting-connectivity-service-end-point,omitempty"`
+
 		ProtectionRole TapiConnectivityProtectionRole `json:"protection-role,omitempty"`
 
 		Role TapiCommonPortRole `json:"role,omitempty"`
+
+		ServerConnectivityServiceEndPoint *TapiConnectivityConnectivityServiceEndPointRef `json:"server-connectivity-service-end-point,omitempty"`
 
 		ServiceInterfacePoint *TapiCommonServiceInterfacePointRef `json:"service-interface-point,omitempty"`
 	}
@@ -147,9 +174,15 @@ func (m TapiConnectivityConnectivityServiceEndPoint) MarshalJSON() ([]byte, erro
 
 	dataAO2.LayerProtocolQualifier = m.LayerProtocolQualifier
 
+	dataAO2.PeerFwdConnectivityServiceEndPoint = m.PeerFwdConnectivityServiceEndPoint
+
+	dataAO2.ProtectingConnectivityServiceEndPoint = m.ProtectingConnectivityServiceEndPoint
+
 	dataAO2.ProtectionRole = m.ProtectionRole
 
 	dataAO2.Role = m.Role
+
+	dataAO2.ServerConnectivityServiceEndPoint = m.ServerConnectivityServiceEndPoint
 
 	dataAO2.ServiceInterfacePoint = m.ServiceInterfacePoint
 
@@ -191,11 +224,23 @@ func (m *TapiConnectivityConnectivityServiceEndPoint) Validate(formats strfmt.Re
 		res = append(res, err)
 	}
 
+	if err := m.validatePeerFwdConnectivityServiceEndPoint(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateProtectingConnectivityServiceEndPoint(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateProtectionRole(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateRole(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateServerConnectivityServiceEndPoint(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -284,6 +329,42 @@ func (m *TapiConnectivityConnectivityServiceEndPoint) validateLayerProtocolName(
 	return nil
 }
 
+func (m *TapiConnectivityConnectivityServiceEndPoint) validatePeerFwdConnectivityServiceEndPoint(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PeerFwdConnectivityServiceEndPoint) { // not required
+		return nil
+	}
+
+	if m.PeerFwdConnectivityServiceEndPoint != nil {
+		if err := m.PeerFwdConnectivityServiceEndPoint.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("peer-fwd-connectivity-service-end-point")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiConnectivityConnectivityServiceEndPoint) validateProtectingConnectivityServiceEndPoint(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ProtectingConnectivityServiceEndPoint) { // not required
+		return nil
+	}
+
+	if m.ProtectingConnectivityServiceEndPoint != nil {
+		if err := m.ProtectingConnectivityServiceEndPoint.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("protecting-connectivity-service-end-point")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *TapiConnectivityConnectivityServiceEndPoint) validateProtectionRole(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.ProtectionRole) { // not required
@@ -311,6 +392,24 @@ func (m *TapiConnectivityConnectivityServiceEndPoint) validateRole(formats strfm
 			return ve.ValidateName("role")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *TapiConnectivityConnectivityServiceEndPoint) validateServerConnectivityServiceEndPoint(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ServerConnectivityServiceEndPoint) { // not required
+		return nil
+	}
+
+	if m.ServerConnectivityServiceEndPoint != nil {
+		if err := m.ServerConnectivityServiceEndPoint.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("server-connectivity-service-end-point")
+			}
+			return err
+		}
 	}
 
 	return nil

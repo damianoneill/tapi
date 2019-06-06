@@ -17,21 +17,42 @@ import (
 type TapiEthEthOnDemandDmPerformanceData struct {
 
 	// This attribute contains the results of an on-demand frame delay measurement job in the ingress direction.
-	OnDemandFarEndDmParameters *TapiEthOnDemandDmPerformanceParameters `json:"on-demand-far-end-dm-parameters,omitempty"`
+	SamplesFarEndDmParameters *TapiEthSamplesDmPerformanceParameters `json:"samples-far-end-dm-parameters,omitempty"`
 
 	// This attribute contains the results of an on-demand frame delay measurement job in the ingress direction.
-	OnDemandNearEndDmParameters *TapiEthOnDemandDmPerformanceParameters `json:"on-demand-near-end-dm-parameters,omitempty"`
+	SamplesNearEndDmParameters *TapiEthSamplesDmPerformanceParameters `json:"samples-near-end-dm-parameters,omitempty"`
+
+	// This attribute contains the statistical bidirectional performnace parameters.
+	StatisticalBiDirDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-bi-dir-dm-parameters,omitempty"`
+
+	// This attribute contains the statistical far end performnace parameters.
+	StatisticalFarEndDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-far-end-dm-parameters,omitempty"`
+
+	// This attribute contains the statistical near end performnace parameters.
+	StatisticalNearEndDmParameters *TapiEthStatisticalDmPerformanceParameters `json:"statistical-near-end-dm-parameters,omitempty"`
 }
 
 // Validate validates this tapi eth eth on demand dm performance data
 func (m *TapiEthEthOnDemandDmPerformanceData) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateOnDemandFarEndDmParameters(formats); err != nil {
+	if err := m.validateSamplesFarEndDmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateOnDemandNearEndDmParameters(formats); err != nil {
+	if err := m.validateSamplesNearEndDmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStatisticalBiDirDmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStatisticalFarEndDmParameters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStatisticalNearEndDmParameters(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -41,16 +62,16 @@ func (m *TapiEthEthOnDemandDmPerformanceData) Validate(formats strfmt.Registry) 
 	return nil
 }
 
-func (m *TapiEthEthOnDemandDmPerformanceData) validateOnDemandFarEndDmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthOnDemandDmPerformanceData) validateSamplesFarEndDmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OnDemandFarEndDmParameters) { // not required
+	if swag.IsZero(m.SamplesFarEndDmParameters) { // not required
 		return nil
 	}
 
-	if m.OnDemandFarEndDmParameters != nil {
-		if err := m.OnDemandFarEndDmParameters.Validate(formats); err != nil {
+	if m.SamplesFarEndDmParameters != nil {
+		if err := m.SamplesFarEndDmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("on-demand-far-end-dm-parameters")
+				return ve.ValidateName("samples-far-end-dm-parameters")
 			}
 			return err
 		}
@@ -59,16 +80,70 @@ func (m *TapiEthEthOnDemandDmPerformanceData) validateOnDemandFarEndDmParameters
 	return nil
 }
 
-func (m *TapiEthEthOnDemandDmPerformanceData) validateOnDemandNearEndDmParameters(formats strfmt.Registry) error {
+func (m *TapiEthEthOnDemandDmPerformanceData) validateSamplesNearEndDmParameters(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.OnDemandNearEndDmParameters) { // not required
+	if swag.IsZero(m.SamplesNearEndDmParameters) { // not required
 		return nil
 	}
 
-	if m.OnDemandNearEndDmParameters != nil {
-		if err := m.OnDemandNearEndDmParameters.Validate(formats); err != nil {
+	if m.SamplesNearEndDmParameters != nil {
+		if err := m.SamplesNearEndDmParameters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("on-demand-near-end-dm-parameters")
+				return ve.ValidateName("samples-near-end-dm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemandDmPerformanceData) validateStatisticalBiDirDmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StatisticalBiDirDmParameters) { // not required
+		return nil
+	}
+
+	if m.StatisticalBiDirDmParameters != nil {
+		if err := m.StatisticalBiDirDmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("statistical-bi-dir-dm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemandDmPerformanceData) validateStatisticalFarEndDmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StatisticalFarEndDmParameters) { // not required
+		return nil
+	}
+
+	if m.StatisticalFarEndDmParameters != nil {
+		if err := m.StatisticalFarEndDmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("statistical-far-end-dm-parameters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *TapiEthEthOnDemandDmPerformanceData) validateStatisticalNearEndDmParameters(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StatisticalNearEndDmParameters) { // not required
+		return nil
+	}
+
+	if m.StatisticalNearEndDmParameters != nil {
+		if err := m.StatisticalNearEndDmParameters.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("statistical-near-end-dm-parameters")
 			}
 			return err
 		}

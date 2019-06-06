@@ -20,9 +20,6 @@ type TapiOamOamProfile struct {
 	TapiCommonGlobalClass
 
 	// none
-	PmBinData []*TapiOamPmBinData `json:"pm-bin-data"`
-
-	// none
 	PmThresholdData []*TapiOamPmThresholdData `json:"pm-threshold-data"`
 }
 
@@ -37,15 +34,11 @@ func (m *TapiOamOamProfile) UnmarshalJSON(raw []byte) error {
 
 	// AO1
 	var dataAO1 struct {
-		PmBinData []*TapiOamPmBinData `json:"pm-bin-data"`
-
 		PmThresholdData []*TapiOamPmThresholdData `json:"pm-threshold-data"`
 	}
 	if err := swag.ReadJSON(raw, &dataAO1); err != nil {
 		return err
 	}
-
-	m.PmBinData = dataAO1.PmBinData
 
 	m.PmThresholdData = dataAO1.PmThresholdData
 
@@ -63,12 +56,8 @@ func (m TapiOamOamProfile) MarshalJSON() ([]byte, error) {
 	_parts = append(_parts, aO0)
 
 	var dataAO1 struct {
-		PmBinData []*TapiOamPmBinData `json:"pm-bin-data"`
-
 		PmThresholdData []*TapiOamPmThresholdData `json:"pm-threshold-data"`
 	}
-
-	dataAO1.PmBinData = m.PmBinData
 
 	dataAO1.PmThresholdData = m.PmThresholdData
 
@@ -90,10 +79,6 @@ func (m *TapiOamOamProfile) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validatePmBinData(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validatePmThresholdData(formats); err != nil {
 		res = append(res, err)
 	}
@@ -101,31 +86,6 @@ func (m *TapiOamOamProfile) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *TapiOamOamProfile) validatePmBinData(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.PmBinData) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.PmBinData); i++ {
-		if swag.IsZero(m.PmBinData[i]) { // not required
-			continue
-		}
-
-		if m.PmBinData[i] != nil {
-			if err := m.PmBinData[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("pm-bin-data" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
 	return nil
 }
 

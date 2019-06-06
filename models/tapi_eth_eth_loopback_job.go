@@ -17,7 +17,14 @@ import (
 type TapiEthEthLoopbackJob struct {
 
 	// none
-	EthLbMsg *TapiEthEthOamMsgCommonPac `json:"eth-lb-msg,omitempty"`
+	EthOamTestLoopbackCommonPac *TapiEthEthOamTestLoopbackCommonPac `json:"eth-oam-test-loopback-common-pac,omitempty"`
+
+	// IEEE P802.1Qcx/D0.3:
+	//                 String length '1..1480'
+	//                 The loopback message Data TLV type.
+	//                 MEF 38:
+	//                 An arbitrary amount of data to be included in a Data TLV.
+	LbmDataTlv string `json:"lbm-data-tlv,omitempty"`
 
 	// G.8052: This parameter specifies how many LB messages to be sent for the LB_Series process.
 	Number int32 `json:"number,omitempty"`
@@ -27,7 +34,7 @@ type TapiEthEthLoopbackJob struct {
 func (m *TapiEthEthLoopbackJob) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateEthLbMsg(formats); err != nil {
+	if err := m.validateEthOamTestLoopbackCommonPac(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -37,16 +44,16 @@ func (m *TapiEthEthLoopbackJob) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TapiEthEthLoopbackJob) validateEthLbMsg(formats strfmt.Registry) error {
+func (m *TapiEthEthLoopbackJob) validateEthOamTestLoopbackCommonPac(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.EthLbMsg) { // not required
+	if swag.IsZero(m.EthOamTestLoopbackCommonPac) { // not required
 		return nil
 	}
 
-	if m.EthLbMsg != nil {
-		if err := m.EthLbMsg.Validate(formats); err != nil {
+	if m.EthOamTestLoopbackCommonPac != nil {
+		if err := m.EthOamTestLoopbackCommonPac.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("eth-lb-msg")
+				return ve.ValidateName("eth-oam-test-loopback-common-pac")
 			}
 			return err
 		}

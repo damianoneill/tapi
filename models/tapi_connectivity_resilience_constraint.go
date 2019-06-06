@@ -18,6 +18,9 @@ import (
 // swagger:model tapi.connectivity.ResilienceConstraint
 type TapiConnectivityResilienceConstraint struct {
 
+	// none
+	FaultConditionDetermination string `json:"fault-condition-determination,omitempty"`
+
 	// This attribute indicates the time, in milliseconds, between declaration of signal degrade or signal fail, and the initialization of the protection switching algorithm.
 	HoldOffTime int32 `json:"hold-off-time,omitempty"`
 
@@ -25,14 +28,14 @@ type TapiConnectivityResilienceConstraint struct {
 	IsCoordinatedSwitchingBothEnds *bool `json:"is-coordinated-switching-both-ends,omitempty"`
 
 	// Temporarily prevents any switch action to be taken and, as such, freezes the current state.
-	//                     Until the freeze is cleared, additional near-end external commands are rejected and fault condition changes and received APS messages are ignored.
-	//                     All administrative controls of any aspect of protection are rejected.
+	//                 Until the freeze is cleared, additional near-end external commands are rejected and fault condition changes and received APS messages are ignored.
+	//                 All administrative controls of any aspect of protection are rejected.
 	IsFrozen *bool `json:"is-frozen,omitempty"`
 
 	// The resource is configured to temporarily not be available for use in the protection scheme(s) it is part of.
-	//                     This overrides all other protection control states including forced.
-	//                     If the item is locked out then it cannot be used under any circumstances.
-	//                     Note: Only relevant when part of a protection scheme.
+	//                 This overrides all other protection control states including forced.
+	//                 If the item is locked out then it cannot be used under any circumstances.
+	//                 Note: Only relevant when part of a protection scheme.
 	IsLockOut *bool `json:"is-lock-out,omitempty"`
 
 	// Used to limit the maximum swtich times. When work fault disappears , and traffic return to the original work path, switch counter reset.
@@ -42,16 +45,22 @@ type TapiConnectivityResilienceConstraint struct {
 	PreferredRestorationLayer []TapiCommonLayerProtocolName `json:"preferred-restoration-layer"`
 
 	// none
-	ResilienceType *TapiTopologyResilienceType `json:"resilience-type,omitempty"`
+	ProtectionType TapiTopologyProtectionType `json:"protection-type,omitempty"`
 
 	//  The coordination mechanism between multi-layers.
 	RestorationCoordinateType TapiConnectivityCoordinateType `json:"restoration-coordinate-type,omitempty"`
+
+	// none
+	RestorationPolicy TapiTopologyRestorationPolicy `json:"restoration-policy,omitempty"`
 
 	// none
 	RestorePriority int32 `json:"restore-priority,omitempty"`
 
 	// Indcates whether the protection scheme is revertive or non-revertive.
 	ReversionMode TapiConnectivityReversionMode `json:"reversion-mode,omitempty"`
+
+	// Degree of administrative control applied to the switch selection.
+	SelectionControl TapiConnectivitySelectionControl `json:"selection-control,omitempty"`
 
 	// If the protection system is revertive, this attribute specifies the time, in minutes, to wait after a fault clears on a higher priority (preferred) resource before reverting to the preferred resource.
 	WaitToRevertTime *int32 `json:"wait-to-revert-time,omitempty"`
@@ -65,7 +74,7 @@ func (m *TapiConnectivityResilienceConstraint) Validate(formats strfmt.Registry)
 		res = append(res, err)
 	}
 
-	if err := m.validateResilienceType(formats); err != nil {
+	if err := m.validateProtectionType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -73,7 +82,15 @@ func (m *TapiConnectivityResilienceConstraint) Validate(formats strfmt.Registry)
 		res = append(res, err)
 	}
 
+	if err := m.validateRestorationPolicy(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateReversionMode(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSelectionControl(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -103,19 +120,17 @@ func (m *TapiConnectivityResilienceConstraint) validatePreferredRestorationLayer
 	return nil
 }
 
-func (m *TapiConnectivityResilienceConstraint) validateResilienceType(formats strfmt.Registry) error {
+func (m *TapiConnectivityResilienceConstraint) validateProtectionType(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.ResilienceType) { // not required
+	if swag.IsZero(m.ProtectionType) { // not required
 		return nil
 	}
 
-	if m.ResilienceType != nil {
-		if err := m.ResilienceType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("resilience-type")
-			}
-			return err
+	if err := m.ProtectionType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("protection-type")
 		}
+		return err
 	}
 
 	return nil
@@ -137,6 +152,22 @@ func (m *TapiConnectivityResilienceConstraint) validateRestorationCoordinateType
 	return nil
 }
 
+func (m *TapiConnectivityResilienceConstraint) validateRestorationPolicy(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.RestorationPolicy) { // not required
+		return nil
+	}
+
+	if err := m.RestorationPolicy.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("restoration-policy")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *TapiConnectivityResilienceConstraint) validateReversionMode(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.ReversionMode) { // not required
@@ -146,6 +177,22 @@ func (m *TapiConnectivityResilienceConstraint) validateReversionMode(formats str
 	if err := m.ReversionMode.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("reversion-mode")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *TapiConnectivityResilienceConstraint) validateSelectionControl(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.SelectionControl) { // not required
+		return nil
+	}
+
+	if err := m.SelectionControl.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("selection-control")
 		}
 		return err
 	}

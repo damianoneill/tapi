@@ -17,9 +17,11 @@ import (
 type TapiCommonContextServiceInterfacePoint struct {
 	TapiCommonServiceInterfacePoint
 
-	TapiPhotonicMediaServiceInterfacePointAugmentation1
+	TapiEthServiceInterfacePointAugmentation1
 
 	TapiPhotonicMediaServiceInterfacePointAugmentation2
+
+	TapiPhotonicMediaServiceInterfacePointAugmentation3
 }
 
 // UnmarshalJSON unmarshals this object from a JSON structure
@@ -32,11 +34,11 @@ func (m *TapiCommonContextServiceInterfacePoint) UnmarshalJSON(raw []byte) error
 	m.TapiCommonServiceInterfacePoint = aO0
 
 	// AO1
-	var aO1 TapiPhotonicMediaServiceInterfacePointAugmentation1
+	var aO1 TapiEthServiceInterfacePointAugmentation1
 	if err := swag.ReadJSON(raw, &aO1); err != nil {
 		return err
 	}
-	m.TapiPhotonicMediaServiceInterfacePointAugmentation1 = aO1
+	m.TapiEthServiceInterfacePointAugmentation1 = aO1
 
 	// AO2
 	var aO2 TapiPhotonicMediaServiceInterfacePointAugmentation2
@@ -45,12 +47,19 @@ func (m *TapiCommonContextServiceInterfacePoint) UnmarshalJSON(raw []byte) error
 	}
 	m.TapiPhotonicMediaServiceInterfacePointAugmentation2 = aO2
 
+	// AO3
+	var aO3 TapiPhotonicMediaServiceInterfacePointAugmentation3
+	if err := swag.ReadJSON(raw, &aO3); err != nil {
+		return err
+	}
+	m.TapiPhotonicMediaServiceInterfacePointAugmentation3 = aO3
+
 	return nil
 }
 
 // MarshalJSON marshals this object to a JSON structure
 func (m TapiCommonContextServiceInterfacePoint) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 3)
+	_parts := make([][]byte, 0, 4)
 
 	aO0, err := swag.WriteJSON(m.TapiCommonServiceInterfacePoint)
 	if err != nil {
@@ -58,7 +67,7 @@ func (m TapiCommonContextServiceInterfacePoint) MarshalJSON() ([]byte, error) {
 	}
 	_parts = append(_parts, aO0)
 
-	aO1, err := swag.WriteJSON(m.TapiPhotonicMediaServiceInterfacePointAugmentation1)
+	aO1, err := swag.WriteJSON(m.TapiEthServiceInterfacePointAugmentation1)
 	if err != nil {
 		return nil, err
 	}
@@ -69,6 +78,12 @@ func (m TapiCommonContextServiceInterfacePoint) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 	_parts = append(_parts, aO2)
+
+	aO3, err := swag.WriteJSON(m.TapiPhotonicMediaServiceInterfacePointAugmentation3)
+	if err != nil {
+		return nil, err
+	}
+	_parts = append(_parts, aO3)
 
 	return swag.ConcatJSON(_parts...), nil
 }
@@ -81,12 +96,16 @@ func (m *TapiCommonContextServiceInterfacePoint) Validate(formats strfmt.Registr
 	if err := m.TapiCommonServiceInterfacePoint.Validate(formats); err != nil {
 		res = append(res, err)
 	}
-	// validation for a type composition with TapiPhotonicMediaServiceInterfacePointAugmentation1
-	if err := m.TapiPhotonicMediaServiceInterfacePointAugmentation1.Validate(formats); err != nil {
+	// validation for a type composition with TapiEthServiceInterfacePointAugmentation1
+	if err := m.TapiEthServiceInterfacePointAugmentation1.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 	// validation for a type composition with TapiPhotonicMediaServiceInterfacePointAugmentation2
 	if err := m.TapiPhotonicMediaServiceInterfacePointAugmentation2.Validate(formats); err != nil {
+		res = append(res, err)
+	}
+	// validation for a type composition with TapiPhotonicMediaServiceInterfacePointAugmentation3
+	if err := m.TapiPhotonicMediaServiceInterfacePointAugmentation3.Validate(formats); err != nil {
 		res = append(res, err)
 	}
 
