@@ -1,4 +1,4 @@
-module github.com/damianoneill/tapi
+module github.com/damianoneill/tapi/v2
 
 go 1.12
 
